@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NEON VIGILANTES — Superhero Collective</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e14;--ink:#d8e4ff;--muted:#8aa0c7;--grid:#111827;
+  --neon1:#00e5ff;--neon2:#ff2d95;--neon3:#a3ff12;
+  --panel:#0f1424;--radius:22px;--shadow:0 20px 50px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(1200px 600px at 10% 0%, #121830 0%, #080b12 60%, #05070c 100%);color:var(--ink);font-family:Rubik,system-ui,Segoe UI,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:60px 60px;opacity:.25;mask-image:radial-gradient(circle at 30% -10%,#000 40%,transparent 70%);pointer-events:none}
+header,section,footer{position:relative;z-index:1}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(11,14,20,.9),rgba(11,14,20,.6));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
+.bar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+.brand{display:flex;align-items:center;gap:12px}
+.sig{width:44px;height:44px;border-radius:12px;background:conic-gradient(from 0deg,var(--neon1),var(--neon2),var(--neon3),var(--neon1));box-shadow:0 0 30px var(--neon1),0 0 60px var(--neon2);position:relative;overflow:hidden}
+.sig:after{content:"NV";position:absolute;inset:0;display:grid;place-items:center;font-family:Orbitron,sans-serif;font-weight:800;color:#0b0e14;mix-blend-mode:hard-light;letter-spacing:1px}
+h1{font-family:Orbitron;margin:0;font-size:1.3rem;letter-spacing:.2em}
+nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
+nav a{padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+nav a:hover{box-shadow:0 0 18px var(--neon1) inset,0 0 30px rgba(0,229,255,.35)}
+.hero{border-bottom:1px solid rgba(255,255,255,.06)}
+.wrap{max-width:1200px;margin:0 auto;padding:48px 18px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.panel{background:linear-gradient(180deg,#0f1424,#0c1120);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px}
+.big-title{font-family:Orbitron;font-weight:800;font-size:3rem;line-height:1.05;margin:0}
+.big-title span{background:linear-gradient(90deg,var(--neon1),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);margin-top:10px}
+.cta{display:flex;gap:12px;margin-top:18px}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;letter-spacing:.05em}
+.btn-primary{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#0b0e14}
+.btn-ghost{background:transparent;border:2px solid var(--neon1);color:var(--neon1)}
+.scope{height:360px;border-radius:var(--radius);background:radial-gradient(circle at 70% 30%,#0b1226 0%,#070b16 60%);border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow);overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+section{max-width:1200px;margin:0 auto;padding:40px 18px}
+h2{font-family:Orbitron;margin:0 0 14px;letter-spacing:.12em}
+
+/* Grid / Cards */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.card{grid-column:span 3;background:linear-gradient(180deg,#0f1424,#0b0f1e);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;position:relative}
+.card:before{content:"";position:absolute;inset:-2px;z-index:-1;border-radius:22px;background:conic-gradient(from 90deg,transparent,rgba(0,229,255,.25),transparent,rgba(255,45,149,.25),transparent);filter:blur(16px)}
+.portrait{height:150px;background:black center/cover no-repeat;display:grid;place-items:center}
+.codename{font-family:Orbitron;font-size:1.1rem;letter-spacing:.15em;text-align:center;padding:8px}
+.body{padding:12px 14px;color:var(--muted);display:flex;flex-direction:column;gap:10px}
+.tag{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.14);border-radius:999px;font-size:.8rem;color:#cde9ff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:4px 8px;font-size:.75rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.statbar{height:10px;background:#0b1221;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--neon1),var(--neon2))}
+.actions{display:flex;gap:8px}
+.mini{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--ink);font-weight:700;cursor:pointer}
+.mini:hover{box-shadow:0 0 20px rgba(0,229,255,.25) inset}
+
+/* Comics reel */
+.comic{position:relative}
+.reel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,40%);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 6px 12px}
+.pane{scroll-snap-align:start;background:linear-gradient(180deg,#121735,#0b0f1e);border:1px solid rgba(255,255,255,.08);border-radius:18px;min-height:260px;position:relative;overflow:hidden}
+.pane .cap{position:absolute;inset:0;padding:14px;color:#cfe4ff;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45) 50%,rgba(0,0,0,.65))}
+.pane .tag{position:absolute;top:10px;left:10px}
+.pane .art{position:absolute;inset:0;opacity:.95;background-size:cover;background-position:center}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:transparent;border:2px solid var(--neon1);color:var(--neon1);padding:10px;border-radius:12px;cursor:pointer}
+.arrow.prev{left:0}.arrow.next{right:0}
+
+/* Labs/Arena */
+.labs{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.box{background:linear-gradient(180deg,#0f1424,#0b0f1e);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:16px}
+.hp{height:12px;background:#0b1221;border-radius:999px;overflow:hidden}
+.hp .fill{background:linear-gradient(90deg,#35ffb2,#00e5ff)}
+.log{background:#0c1222;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;height:170px;overflow:auto;font-family:ui-monospace,Consolas,monospace;font-size:.9rem;color:#d2e7ff}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+select,input,button{font-family:inherit}
+.history{margin-top:12px}
+footer{padding:24px 18px;border-top:1px solid rgba(255,255,255,.06);text-align:center;color:var(--muted)}
+
+@media (max-width:1024px){.card{grid-column:span 4}.wrap{grid-template-columns:1fr}.labs{grid-template-columns:1fr}}
+@media (max-width:640px){.card{grid-column:span 12}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand"><div class="sig" aria-hidden="true"></div><h1>NEON VIGILANTES</h1></div>
+    <nav><ul>
+      <li><a href="#roster">Roster</a></li>
+      <li><a href="#comics">Comics</a></li>
+      <li><a href="#issues">Case Log</a></li>
+      <li><a href="#labs">Labs</a></li>
+      <li><a href="#lore">Lore</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="panel">
+      <h2 class="big-title">Protecting the City in <span>Hard-Light</span> & Shadow.</h2>
+      <p class="sub">Neon-noir microsite with hologram FX, comics reel and a duel simulator with abilities & history.</p>
+      <div class="cta">
+        <button class="btn btn-primary" onclick="scrollToId('roster')">Meet the Team</button>
+        <button class="btn btn-ghost" onclick="randomizeTheme()">⚡ Pulse Theme</button>
+      </div>
+    </div>
+    <div class="scope" aria-label="Hologram Grid"><canvas id="fx"></canvas></div>
+  </div>
+</section>
+
+<section id="roster">
+  <h2>ROSTER</h2>
+  <p class="sub">Hover / tap cards for stats & abilities. Portraits are generated SVGs.</p>
+  <div class="grid" id="cards"></div>
+</section>
+
+<section id="comics">
+  <h2>COMICS — MULTI-PANEL REEL</h2>
+  <p class="sub">Swipe / scroll horizontally. Use the arrows for panel-to-panel jumps.</p>
+  <div class="comic">
+    <button class="arrow prev" aria-label="Previous panel" onclick="reelLeft()">◀</button>
+    <div class="reel" id="reel" tabindex="0" aria-label="Comic panels"></div>
+    <button class="arrow next" aria-label="Next panel" onclick="reelRight()">▶</button>
+  </div>
+</section>
+
+<section id="issues">
+  <h2>CASE LOG</h2>
+  <div class="timeline">
+    <div class="event" style="margin:0 0 10px 0">NV-021 — East Docks outage neutralized.</div>
+    <div class="event" style="margin:0 0 10px 0">NV-022 — Train hijack foiled via kinetic mirrors.</div>
+    <div class="event" style="margin:0 0 10px 0">NV-023 — Rogue AI billboard pacified.</div>
+  </div>
+</section>
+
+<section id="labs" class="labs">
+  <div class="box">
+    <h2>POWER FORGE</h2>
+    <p class="sub">Generate a codename + power for your hero idea.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">
+      <button class="mini" onclick="makeHero()">Generate</button>
+      <button class="mini" onclick="copyOut()">Copy</button>
+    </div>
+    <pre id="out" style="white-space:pre-wrap;word-break:break-word"></pre>
+  </div>
+
+  <div class="box">
+    <h2>ARENA — VERSUS</h2>
+    <p class="sub">Round-based simulation with shields, DoT, crits, dodges and speed control.</p>
+
+    <div class="controls">
+      <select id="a"></select><span>vs</span><select id="b"></select>
+      <label>Speed:
+        <select id="speed">
+          <option value="1.2">Slow</option>
+          <option value="0.8" selected>Normal</option>
+          <option value="0.5">Fast</option>
+        </select>
+      </label>
+      <button class="mini" onclick="startFight()">Fight!</button>
+      <button class="mini" onclick="stopFight()">Stop</button>
+      <button class="mini" onclick="resetFight()">Reset</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px">
+      <div><strong id="nameA">A</strong>
+        <div class="hp"><div class="fill" id="hpA" style="width:100%"></div></div>
+      </div>
+      <div><strong id="nameB">B</strong>
+        <div class="hp"><div class="fill" id="hpB" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <div class="log" id="log"></div>
+    <p id="duelres" style="margin-top:10px;font-weight:700"></p>
+
+    <div class="history">
+      <h3 style="margin:.6rem 0 .2rem">History</h3>
+      <div id="history" class="log" style="height:140px"></div>
+    </div>
+  </div>
+</section>
+
+<section id="lore">
+  <h2>LORE</h2>
+  <p class="sub">Fragments from the city below the neon rain.</p>
+  <div class="box">
+    <p>They call it the <strong>Tri-Spire</strong>: three towers humming with hard-light engines. When the grid flickers, shadows move like water and old alley shrines blink awake.</p>
+  </div>
+</section>
+
+<footer><small>© 2025 NEON VIGILANTES — handcrafted, no templates.</small></footer>
+
+<script>
+/* ====== Audio FX ====== */
+let AC;
+function buzz(type='ui', dur=0.12, hz=440){
+  try{
+    const Audio = window.AudioContext || window.webkitAudioContext;
+    if(!Audio) return;
+    AC = AC || new Audio();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = (type==='duel') ? 'square' : (type==='pulse' ? 'sawtooth' : 'sine');
+    o.frequency.value = hz; g.gain.value = 0.0001;
+    o.connect(g); g.connect(AC.destination);
+    o.start(); const t = AC.currentTime;
+    g.gain.exponentialRampToValueAtTime(0.2, t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+    o.stop(t+dur);
+  }catch(err){
+    console.warn('Audio effect skipped:', err);
+  }
+}
+
+/* ====== Hologram canvas ====== */
+const cvs=document.getElementById('fx'), ctx=cvs.getContext('2d');let W,H,pts=[];
+function resize(){W=cvs.width=cvs.clientWidth;H=cvs.height=cvs.clientHeight;
+  pts=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.7,vy:(Math.random()-.5)*.7}));
+}
+window.addEventListener('resize',resize); resize();
+(function tick(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+  for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;}
+  for(let i=0;i<pts.length;i++){const p=pts[i];ctx.fillStyle='rgba(0,229,255,.8)';ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,Math.PI*2);ctx.fill();
+    for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<120){ctx.strokeStyle=`rgba(255,45,149,${1-d/120})`;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}
+  requestAnimationFrame(tick);
+})();
+
+/* ====== Helpers ====== */
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function makeHero(){
+  const prefixes = ['Neon','Void','Photon','Echo','Cyber','Nova','Static','Chrome','Pulse','Shadow'];
+  const nouns = ['Warden','Runner','Oracle','Specter','Circuit','Sentinel','Flux','Blade','Signal','Vigil'];
+  const powers = [
+    'bends hard-light into temporary shields',
+    'reads movement patterns through city cameras',
+    'turns sound waves into kinetic force',
+    'jumps between short-range signal points',
+    'overloads hostile drones with neon pulses',
+    'creates decoy silhouettes from reflected light'
+  ];
+  const limits = [
+    'needs a power source nearby',
+    'gets weaker in total darkness',
+    'can only hold the effect for a few seconds',
+    'must stay focused or the illusion collapses',
+    'cannot use the ability twice in a row'
+  ];
+  const name = `${pick(prefixes)} ${pick(nouns)}`;
+  const text = `${name}\nPower: ${pick(powers)}.\nLimit: ${pick(limits)}.`;
+  document.getElementById('out').textContent = text;
+  buzz('pulse',0.1,620);
+}
+function copyOut(){
+  const text = document.getElementById('out').textContent.trim();
+  if(!text){
+    makeHero();
+    return;
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text);
+  }
+  buzz('ui',0.08,520);
+}
+function avatarFor(name, tag){
+  const palette = {
+    LIGHT:['#88f1ff','#00e5ff'], IMPACT:['#ff8ac2','#ff2d95'],
+    VOID:['#b38cff','#7b61ff'], STORM:['#9ae6ff','#00ccff'],
+    PHASE:['#c3f0ff','#7ee7ff'], GAZE:['#b4ff7a','#7aff12'],
+    FIRE:['#ffd37a','#ff8a00'], TIDE:['#7affc5','#1be6a2']
+  }[tag] || ['#9ad','#59f'];
+  const [a,b]=palette;
+  const icon = name.split(' ')[0][0] + name.split(' ')[1]?.[0] ?? 'N';
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'>
+      <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+        <stop stop-color='${a}'/><stop offset='1' stop-color='${b}'/></linearGradient></defs>
+      <rect width='100%' height='100%' fill='black'/>
+      <g opacity='0.6'>
+        <circle cx='220' cy='190' r='120' fill='url(#g)'/>
+        <rect x='460' y='120' width='220' height='220' fill='url(#g)'/>
+      </g>
+      <text x='50%' y='85%' font-family='Orbitron' font-size='160' fill='${a}' text-anchor='middle'>${icon}</text>
+    </svg>`;
+  return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
+}
+
+/* ====== Data (with abilities) ====== */
+const ROSTER = [
+  {name:'PHOTON RIFT', role:'Hard-light tactician', tag:'LIGHT',
+   stats:{power:82,speed:74,intel:88},
+   ability:{shield:0.12, dot:{dps:4,duration:3,chance:0.20}}},
+
+  {name:'ECHO MARAUDER', role:'Kinetic brawler', tag:'IMPACT',
+   stats:{power:90,speed:68,intel:60},
+   ability:{shield:0.06, dot:{dps:5,duration:2,chance:0.25}}},
+
+  {name:'NULL BLOOM', role:'Entropy gardener', tag:'VOID',
+   stats:{power:76,speed:80,intel:86},
+   ability:{shield:0.10, dot:{dps:3,duration:4,chance:0.30}}},
+
+  {name:'SKYWIRE', role:'Aerial hacker', tag:'STORM',
+   stats:{power:70,speed:92,intel:84},
+   ability:{shield:0.08, dot:{dps:4,duration:2,chance:0.22}}},
+
+  {name:'GHOST RADIANT', role:'Phase courier', tag:'PHASE',
+   stats:{power:65,speed:88,intel:78},
+   ability:{shield:0.15, dot:{dps:2,duration:4,chance:0.18}}},
+
+  {name:'BASILISK-7', role:'Optic sentinel', tag:'GAZE',
+   stats:{power:85,speed:64,intel:72},
+   ability:{shield:0.20, dot:{dps:2,duration:3,chance:0.14}}},
+
+  {name:'EMBER KNOT', role:'Thermal trickster', tag:'FIRE',
+   stats:{power:73,speed:76,intel:75},
+   ability:{shield:0.08, dot:{dps:4,duration:3,chance:0.28}}},
+
+  {name:'TIDAL CORE', role:'Pressure architect', tag:'TIDE',
+   stats:{power:88,speed:70,intel:69},
+   ability:{shield:0.10, dot:{dps:3,duration:3,chance:0.20}}}
+];
+
+const cards=document.getElementById('cards');
+const selA=document.getElementById('a'), selB=document.getElementById('b');
+const speedSel=document.getElementById('speed');
+
+function pctBar(n){return `<div class="statbar"><div class="fill" style="width:${n}%"></div></div>`;}
+function cardTemplate(h){
+  return `<article class="card">
+    <div class="portrait" style="background-image:${avatarFor(h.name,h.tag)}"></div>
+    <div class="codename">${h.name}</div>
+    <div class="body">
+      <span class="tag">${h.tag}</span>
+      <div>${h.role}</div>
+      <div class="chips">
+        <span class="chip">Shield ${(h.ability.shield*100)|0}%</span>
+        <span class="chip">DoT ${h.ability.dot.dps}/r × ${h.ability.dot.duration}</span>
+      </div>
+      <div class="stats">
+        <div>Power ${pctBar(h.stats.power)}</div>
+        <div>Speed ${pctBar(h.stats.speed)}</div>
+        <div>Intel ${pctBar(h.stats.intel)}</div>
+      </div>
+      <div class="actions">
+        <button class="mini" onclick='ping("${h.name}")'>Ping</button>
+        <button class="mini" onclick='loadToArena("${h.name}")'>Add to Arena</button>
+      </div>
+    </div>
+  </article>`;
+}
+function render(){
+  cards.innerHTML = ROSTER.map(cardTemplate).join('');
+  const opts = ROSTER.map(h=>`<option>${h.name}</option>`).join('');
+  selA.innerHTML=opts; selB.innerHTML=opts; selB.selectedIndex=1;
+  updateNames();
+}
+render();
+
+function ping(n){const el=[...document.querySelectorAll('.codename')].find(e=>e.textContent===n); if(!el)return; el.style.textShadow='0 0 18px var(--neon1),0 0 30px var(--neon2)'; setTimeout(()=>el.style.textShadow='',450);}
+function loadToArena(n){const i=ROSTER.findIndex(h=>h.name===n); if(i<0)return; selA.selectedIndex=i; selB.selectedIndex=(i+1)%ROSTER.length; updateNames(); }
+selA.addEventListener('change',updateNames); selB.addEventListener('change',updateNames);
+function updateNames(){document.getElementById('nameA').textContent=selA.value;document.getElementById('nameB').textContent=selB.value;}
+
+/* ====== Duel Simulation with abilities ====== */
+let loop=null, state=null;
+const logEl=document.getElementById('log'), resEl=document.getElementById('duelres');
+const hpA=document.getElementById('hpA'), hpB=document.getElementById('hpB');
+
+function initFight(){
+  const A=ROSTER[selA.selectedIndex], B=ROSTER[selB.selectedIndex];
+  if(A.name===B.name){ resEl.textContent='Pick two different heroes.'; buzz('ui',0.08,320); return null; }
+  const hpBase=(h)=> 120 + h.stats.power*1.1 + h.stats.intel*0.6;
+  return {
+    A:{hero:A,hp:hpBase(A),max:hpBase(A),effects:[]},
+    B:{hero:B,hp:hpBase(B),max:hpBase(B),effects:[]},
+    round:1
+  };
+}
+function drawHP(){
+  hpA.style.width = Math.max(0, Math.round(state.A.hp/state.A.max*100)) + '%';
+  hpB.style.width = Math.max(0, Math.round(state.B.hp/state.B.max*100)) + '%';
+}
+function rng(min,max){return Math.random()*(max-min)+min}
+function chance(p){return Math.random()<p}
+
+function applyEffects(side, label){
+  let dotDmg = 0;
+  side.effects.forEach(e=>{ if(e.type==='dot' && e.t>0){ dotDmg += e.dps; e.t--; } });
+  side.effects = side.effects.filter(e=>e.t>0);
+  if(dotDmg>0){ side.hp -= dotDmg; logEl.textContent += `${label} suffers ${dotDmg} DoT.\n`; }
+}
+
+function startFight(){
+  if(loop) return; state=initFight(); if(!state) return;
+  logEl.textContent=''; resEl.textContent='';
+  drawHP(); buzz('duel',0.15,580);
+  stepRound();
+  if(!state || resEl.textContent) return;
+  const base = 700; const mul = parseFloat(speedSel.value||0.8);
+  loop=setInterval(stepRound, base*mul);
+}
+function stopFight(){ if(loop){ clearInterval(loop); loop=null; buzz('ui',0.06,380);} }
+function resetFight(){ stopFight(); state=null; hpA.style.width='100%'; hpB.style.width='100%'; logEl.textContent=''; resEl.textContent=''; }
+
+function stepRound(){
+  if(!state){stopFight(); return;}
+  const Sa=state.A.hero.stats, Sb=state.B.hero.stats;
+  const Ab=state.A.hero.ability, Bb=state.B.hero.ability;
+
+  // pre-round DoTs
+  applyEffects(state.A, state.A.hero.name);
+  applyEffects(state.B, state.B.hero.name);
+
+  // attacks
+  const atk=(s,op,defShield)=>{ // returns {dmg, crit, dodge, appliedDot}
+    let base = 8 + s.power*0.25 + s.intel*0.12 + rng(-3,3);
+    const crit = chance(0.12 + s.intel*0.0015); if(crit) base*=1.8;
+    const dodge = chance(0.08 + op.speed*0.0015);
+    let dmg = dodge? 0 : Math.max(0, Math.round(base*(1-defShield)));
+    const appliedDot = !dodge && chance(0.15 + s.intel*0.001) ; // base small chance from attacker
+    return {dmg, crit, dodge, appliedDot};
+  };
+
+  const hitAB = atk(Sa,Sb,Bb.shield); // A -> B (B shield)
+  const hitBA = atk(Sb,Sa,Ab.shield); // B -> A (A shield)
+
+  state.B.hp -= hitAB.dmg;
+  state.A.hp -= hitBA.dmg;
+
+  // Attacker-specific DoTs (from abilities)
+  if(hitAB.appliedDot && Bb && Ab.dot){ state.B.effects.push({type:'dot', dps:Ab.dot.dps, t:Ab.dot.duration}); }
+  if(hitBA.appliedDot && Ab && Bb.dot){ state.A.effects.push({type:'dot', dps:Bb.dot.dps, t:Bb.dot.duration}); }
+
+  const line = `R${state.round}: ${state.A.hero.name} ${hitAB.dodge?'missed':'hits'}${hitAB.crit?' (CRIT)':''} for ${hitAB.dmg}; ` +
+               `${state.B.hero.name} ${hitBA.dodge?'missed':'hits'}${hitBA.crit?' (CRIT)':''} for ${hitBA.dmg}.`;
+  logEl.textContent += line + "\n";
+  logEl.scrollTop = logEl.scrollHeight;
+  drawHP();
+
+  if(state.A.hp<=0 || state.B.hp<=0){
+    const winner = state.A.hp>state.B.hp ? state.A.hero.name : state.B.hero.name;
+    resEl.textContent = `${winner} wins in ${state.round} rounds.`;
+    buzz('duel',0.25, state.A.hp>state.B.hp? 700: 440);
+    saveResult(state.A.hero.name, state.B.hero.name, winner, state.round);
+    stopFight();
+  } else {
+    state.round++;
+  }
+}
+
+/* ====== History (localStorage) ====== */
+const HIST_KEY='nv_results';
+function loadHistory(){ try{ return JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); }catch{ return []; } }
+function saveHistory(arr){ try{ localStorage.setItem(HIST_KEY, JSON.stringify(arr)); }catch{} }
+function saveResult(a,b,winner,rounds){
+  const arr = loadHistory();
+  arr.unshift({ts:new Date().toISOString(), a,b,winner,rounds});
+  if(arr.length>50) arr.pop();
+  saveHistory(arr); renderHistory();
+}
+function renderHistory(){
+  const wrap=document.getElementById('history');
+  const arr=loadHistory();
+  wrap.textContent = arr.slice(0,12).map(r=>{
+    const time = new Date(r.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return `[${time}] ${r.a} vs ${r.b} → ${r.winner} (${r.rounds}r)`;
+  }).join('\n');
+}
+renderHistory();
+
+/* ====== Theme & misc ====== */
+function randomizeTheme(){
+  const hues=[180,300,90,210,260]; const h=hues[Math.floor(Math.random()*hues.length)];
+  document.documentElement.style.setProperty('--neon1',`hsl(${h} 100% 55%)`);
+  document.documentElement.style.setProperty('--neon2',`hsl(${(h+70)%360} 100% 55%)`);
+  document.documentElement.style.setProperty('--neon3',`hsl(${(h+140)%360} 100% 65%)`);
+  buzz('ui',0.08,700);
+}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+document.addEventListener('click',e=>{ if(e.target.closest('button')) buzz('ui',0.05,600); });
+
+/* ====== Comics with inline images ====== */
+const reel=document.getElementById('reel');
+if(reel){
+  const img = (h1='#00e5ff',h2='#ff2d95',icon='◉') =>
+    `url('data:image/svg+xml;utf8,${encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${h1}"/><stop offset="1" stop-color="${h2}"/></linearGradient></defs>
+         <rect width="100%" height="100%" fill="black"/>
+         <g opacity="0.6"><circle cx="220" cy="190" r="120" fill="url(#g)"/><rect x="460" y="120" width="220" height="220" fill="url(#g)"/></g>
+         <text x="50%" y="85%" font-family="Orbitron" font-size="120" fill="${h1}" text-anchor="middle">${icon}</text>
+       </svg>`)}')`;
+  const panels = [
+    {tag:'NV-001', title:'Dawn at Tri-Spire', text:'The grid murmurs. Footsteps echo before they happen.', bg: img('#00e5ff','#7afcff','◎')},
+    {tag:'NV-002', title:'Signal Bloom',       text:'Billboards bloom into roses of light.',              bg: img('#ff2d95','#ffb3db','✿')},
+    {tag:'NV-003', title:'Mirrors on Rails',   text:'A train splits into afterimages — then recombines.', bg: img('#a3ff12','#5bff87','◆')},
+    {tag:'NV-004', title:'Phase Alley',        text:'Doors lead to yesterday only on Tuesdays.',          bg: img('#b98bff','#7b61ff','◇')},
+    {tag:'NV-005', title:'Library Choir',      text:'The AI learns to whisper.',                           bg: img('#f6ad55','#dd6b20','♪')}
+  ];
+  reel.innerHTML = panels.map(p=>`
+    <article class="pane">
+      <div class="art" style="background-image:${p.bg}"></div>
+      <span class="tag">${p.tag}</span>
+      <div class="cap"><h3 style="margin:0">${p.title}</h3><p style="margin:.2rem 0 0">${p.text}</p></div>
+    </article>`).join('');
+}
+function reelLeft(){reel.scrollBy({left:-400,behavior:'smooth'})}
+function reelRight(){reel.scrollBy({left:400,behavior:'smooth'})}
+Object.assign(window,{scrollToId,randomizeTheme,reelLeft,reelRight,makeHero,copyOut,startFight,stopFight,resetFight});
+</script>
+</body>
+</html>

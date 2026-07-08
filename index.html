@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oryna Kokh — Portfolio</title>
+<meta name="description" content="Portfolio of Oryna Kokh — junior developer with hands-on experience in websites, interactive projects and game development.">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23111116'/><text x='50' y='61' font-size='40' text-anchor='middle' fill='%23F6F2EC' font-family='Arial'>OK</text></svg>">
+<style>
+  :root{
+    --bg:#f5f1eb;
+    --paper:#fffdfa;
+    --paper-2:#f9f5ef;
+    --ink:#141217;
+    --muted:#6f6877;
+    --line:#e5ddd2;
+    --line-2:#d8cdc0;
+    --accent:#19161f;
+    --accent-soft:#2b2436;
+    --gold:#c89f61;
+    --gold-soft:#e9d6bb;
+    --lav:#7c62d6;
+    --mint:#88b8aa;
+    --shadow-lg:0 35px 90px rgba(32,22,13,.12);
+    --shadow-md:0 18px 48px rgba(32,22,13,.08);
+    --radius-xl:34px;
+    --radius-lg:24px;
+    --radius-md:18px;
+    --max:1180px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    color:var(--ink);
+    background:
+      radial-gradient(760px 500px at -10% 0%, rgba(124,98,214,.10), transparent 60%),
+      radial-gradient(720px 420px at 110% 10%, rgba(200,159,97,.10), transparent 60%),
+      linear-gradient(180deg,#fdfaf6 0%, #f6f1ea 38%, #f2ece3 100%);
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{text-decoration:none;color:inherit}
+  img{max-width:100%;display:block}
+  button,input,textarea{font:inherit}
+
+  .grain{
+    position:fixed; inset:0; pointer-events:none; opacity:.028; z-index:-1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+  }
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(16px);
+    background:rgba(253,250,246,.74);
+    border-bottom:1px solid rgba(229,221,210,.78);
+  }
+  .bar{max-width:var(--max);margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.03em}
+  .logo{
+    width:44px;height:44px;border-radius:16px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#111116,#2b2436 60%, #c89f61);
+    color:#fff; font-size:.86rem; font-weight:900; box-shadow:0 12px 28px rgba(20,18,23,.16);
+  }
+  nav{margin-left:auto;display:flex;gap:4px;align-items:center}
+  nav a,.drawer a{
+    padding:10px 12px; border-radius:999px; color:#575163; font-weight:800; font-size:.93rem;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  nav a:hover,.drawer a:hover{background:rgba(20,18,23,.05);color:var(--ink);transform:translateY(-1px)}
+  .lang{display:flex;gap:6px;margin-left:8px}
+  .lang button{
+    border:1px solid var(--line); background:rgba(255,255,255,.76); color:#5d5568;
+    border-radius:999px; padding:7px 10px; cursor:pointer; font-size:.78rem; font-weight:900;
+    transition:all .18s ease;
+  }
+  .lang button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .hamb{display:none;margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:14px;padding:9px 12px;font-weight:900;color:var(--ink)}
+  .drawer{display:none;background:rgba(253,250,246,.97);border-top:1px solid var(--line);padding:8px 20px 16px}
+  .drawer.open{display:block}.drawer a{display:block;border-radius:14px}
+  @media (max-width:860px){nav{display:none}.hamb{display:block}.lang{margin-left:0}}
+
+  main{padding:36px 0 56px}
+
+  @keyframes gradientShift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  @keyframes glowDrift{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(10px,-8px,0) scale(1.03)}
+  }
+  @keyframes floatSoft{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+  }
+  @keyframes floatSoftAlt{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(12px)}
+  }
+  @keyframes pulseShine{
+    0%,100%{box-shadow:0 0 0 rgba(200,159,97,0)}
+    50%{box-shadow:0 0 24px rgba(200,159,97,.18)}
+  }
+
+  .hero{
+    position:relative;
+    border:1px solid rgba(229,221,210,.94);
+    background:linear-gradient(180deg, rgba(255,253,250,.92), rgba(250,246,240,.88));
+    border-radius:40px;
+    overflow:hidden;
+    box-shadow:var(--shadow-lg);
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(620px 260px at 12% 0%, rgba(124,98,214,.10), transparent 64%),
+      radial-gradient(520px 240px at 98% 20%, rgba(200,159,97,.12), transparent 64%);
+    animation:glowDrift 14s ease-in-out infinite;
+  }
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);min-height:585px}
+  .hero-copy{padding:48px;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between}
+  .hero-side{
+    border-left:1px solid rgba(229,221,210,.94);
+    background:linear-gradient(160deg,#141217 0%, #2a2335 62%, #6d5433 120%);
+    position:relative; overflow:hidden; color:#fff;
+  }
+  .hero-side::before{
+    content:""; position:absolute; inset:-5%;
+    background:radial-gradient(circle at 28% 18%, rgba(255,255,255,.18), transparent 16%),
+               radial-gradient(circle at 82% 20%, rgba(136,184,170,.24), transparent 18%),
+               radial-gradient(circle at 70% 82%, rgba(200,159,97,.28), transparent 24%);
+    animation:glowDrift 18s ease-in-out infinite reverse;
+  }
+  .eyebrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;
+    border:1px solid var(--line);background:rgba(255,255,255,.7);color:#5f5868;font-size:.82rem;font-weight:900;
+  }
+  .pill.dark{background:var(--accent);color:#fff;border-color:var(--accent)}
+  h1{font-size:clamp(34px,4.4vw,56px);line-height:1.05;letter-spacing:-.05em;margin:18px 0 14px;padding:.04em 0 .08em;max-width:700px;overflow:visible}
+  .gradient-text{background:linear-gradient(90deg,#7c62d6 0%, #a57ce0 30%, #c89f61 68%, #7c62d6 100%);background-size:220% 220%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientShift 8s ease-in-out infinite}
+  .lead{max-width:680px;margin:0;color:var(--muted);font-size:1rem;line-height:1.68}
+  .lead strong{color:#372f43}
+  .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border-radius:999px;padding:13px 16px;font-weight:900;border:1px solid var(--line);
+    background:#fff;color:var(--ink);transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.01);box-shadow:var(--shadow-md)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.soft{background:rgba(255,255,255,.62)}
+  .note{
+    margin-top:18px; padding:14px 16px; border-radius:18px; border:1px solid var(--line);
+    background:rgba(255,255,255,.72); color:#5f5868; font-size:.93rem; line-height:1.62;
+  }
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+  .stat{padding:16px 16px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.72);transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease}
+  .stat strong{display:block;font-size:1.75rem;line-height:1;letter-spacing:-.05em}
+  .stat span{display:block;margin-top:6px;font-size:.84rem;color:var(--muted);font-weight:800;line-height:1.35}
+  .stat:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(32,22,13,.08);border-color:var(--line-2)}
+
+  .side-wrap{position:relative;height:100%;padding:34px}
+  .panel{
+    position:absolute; border:1px solid rgba(255,255,255,.16); border-radius:28px;
+    background:rgba(255,255,255,.10); backdrop-filter:blur(16px); box-shadow:0 24px 60px rgba(0,0,0,.28);
+  }
+  .panel.a{left:32px;top:34px;width:76%;padding:20px;min-height:205px;animation:floatSoft 7s ease-in-out infinite}
+  .panel.b{right:32px;bottom:34px;width:72%;padding:18px;min-height:190px;animation:floatSoftAlt 8.5s ease-in-out infinite}
+  .panel .dots{display:flex;gap:7px;margin-bottom:18px}
+  .panel .dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45)}
+  .panel h3{margin:0;font-size:1.58rem;line-height:1.02;letter-spacing:-.05em;max-width:260px}
+  .panel p{margin:12px 0 0;color:rgba(255,255,255,.72);line-height:1.6;font-size:.9rem;max-width:290px}
+  .lines{display:grid;gap:8px;margin-top:18px}.lines i{display:block;height:10px;border-radius:999px;background:rgba(255,255,255,.16)}.lines i:nth-child(2){width:72%}.lines i:nth-child(3){width:48%}
+  .phone{
+    position:absolute; right:58px; top:208px; width:118px; height:214px; border-radius:30px;
+    border:8px solid rgba(255,255,255,.18); background:rgba(255,255,255,.10); box-shadow:0 26px 60px rgba(0,0,0,.34);
+    padding:13px; animation:floatSoft 6.5s ease-in-out infinite;
+  }
+  .phone span{display:block;height:29px;margin-bottom:10px;border-radius:12px;background:rgba(255,255,255,.2)}
+  .phone span:nth-child(2){height:68px}.phone span:nth-child(3){width:72%}.phone span:nth-child(4){width:46%}
+  .signature{position:absolute;right:-14px;bottom:-20px;font-size:11rem;line-height:.8;letter-spacing:-.11em;font-weight:900;color:rgba(255,255,255,.06);animation:floatSoftAlt 12s ease-in-out infinite}
+  .mini-proof{
+    position:absolute;left:42px;bottom:250px;z-index:2;display:grid;gap:9px;width:220px;
+  }
+  .proof-row{
+    display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.09);backdrop-filter:blur(14px);
+    border-radius:999px;padding:9px 12px;color:rgba(255,255,255,.82);
+    font-size:.78rem;font-weight:900;box-shadow:0 14px 34px rgba(0,0,0,.18);
+  }
+  .proof-row i{width:9px;height:9px;border-radius:50%;background:#c89f61;box-shadow:0 0 18px rgba(200,159,97,.52)}
+  .proof-row:nth-child(2){margin-left:22px}.proof-row:nth-child(3){margin-left:44px}
+
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-copy{padding:34px}
+    .hero-side{min-height:430px;border-left:0;border-top:1px solid rgba(229,221,210,.94)}
+    .panel.a{width:70%;top:34px}
+    .panel.b{bottom:34px}
+    .phone{top:180px}
+  }
+  @media (max-width:640px){
+    main{padding-top:18px}
+    .hero{border-radius:28px}
+    .hero-copy{padding:24px}
+    .hero-stats{grid-template-columns:1fr}
+    .panel.a,.panel.b{left:18px;right:18px;width:auto}
+    .phone{display:none}
+  }
+
+  .focus-strip{
+    margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  }
+  .focus-item{
+    border:1px solid rgba(229,221,210,.92);background:rgba(255,253,250,.68);
+    border-radius:22px;padding:16px 16px;box-shadow:0 12px 32px rgba(32,22,13,.05);
+    transition:transform .22s ease, box-shadow .22s ease;
+  }
+  .focus-item:hover{transform:translateY(-4px);box-shadow:0 18px 42px rgba(32,22,13,.08)}
+  .focus-item strong{display:block;font-size:.92rem;letter-spacing:-.02em}
+  .focus-item span{display:block;margin-top:6px;color:var(--muted);font-size:.84rem;line-height:1.45}
+  @media (max-width:860px){.focus-strip{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.focus-strip{grid-template-columns:1fr}}
+
+  .section{
+    margin-top:28px; border:1px solid rgba(229,221,210,.94); background:rgba(255,253,250,.72);
+    box-shadow:var(--shadow-md); border-radius:34px; padding:30px; overflow:hidden;
+  }
+  .section-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:20px}
+  .kicker{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--gold)}
+  .section h2{font-size:clamp(25px,3.5vw,44px);line-height:1;letter-spacing:-.055em;margin:8px 0 0}
+  .section-head p{margin:0;max-width:560px;color:var(--muted);line-height:1.7}
+  @media (max-width:760px){.section{padding:22px;border-radius:28px}.section-head{display:block}.section-head p{margin-top:12px}}
+
+  .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .case{
+    border:1px solid var(--line); background:#fff; border-radius:28px; overflow:hidden; box-shadow:0 16px 40px rgba(32,22,13,.07);
+    display:flex; flex-direction:column; transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  }
+  .case:hover{transform:translateY(-6px); box-shadow:0 20px 48px rgba(32,22,13,.10); border-color:var(--line-2)}
+  .case:hover .mini-browser{transform:translateY(-4px) scale(1.01);box-shadow:0 24px 44px rgba(33,24,16,.14)}
+  .case-visual{height:250px;padding:18px;background:linear-gradient(150deg,#f7f3ec,#efe6da);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .mini-browser{height:100%;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 18px 36px rgba(33,24,16,.10);display:flex;flex-direction:column;transition:transform .28s ease, box-shadow .28s ease}
+  .mini-bar{display:flex;align-items:center;gap:7px;padding:12px 14px;border-bottom:1px solid #efe6da;background:#fdf9f4}
+  .mini-bar i{width:8px;height:8px;border-radius:50%;background:#ddd1c3}
+  .mini-page{flex:1;padding:16px;display:grid;gap:12px}
+  .hero-box{height:92px;border-radius:18px;background:linear-gradient(135deg,rgba(20,18,23,.10),rgba(200,159,97,.30)),url("https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?auto=format&fit=crop&w=900&q=70") center/cover}
+  .hero-box.alt{background:linear-gradient(135deg,rgba(20,18,23,.12),rgba(124,98,214,.24)),url("https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=900&q=70") center/cover}
+  .row-2,.row-3{display:grid;gap:12px}
+  .row-2{grid-template-columns:1.25fr .75fr}
+  .row-3{grid-template-columns:repeat(3,1fr)}
+  .mini-card{border-radius:16px;background:#f6f1ea;min-height:54px}
+  .mini-card.tall{min-height:90px}
+  .glass-label{
+    position:absolute;left:20px;bottom:18px;padding:8px 12px;border-radius:999px;
+    background:rgba(20,18,23,.78);color:#fff;font-size:.78rem;font-weight:900;backdrop-filter:blur(10px);animation:pulseShine 5s ease-in-out infinite
+  }
+  .case-body{padding:22px;display:flex;flex-direction:column;gap:16px;flex:1}
+  .meta{display:flex;justify-content:space-between;gap:12px;align-items:start}
+  .meta h3{margin:0;font-size:1.25rem;line-height:1.15;letter-spacing:-.04em}
+  .badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:.74rem;font-weight:900;white-space:nowrap}
+  .badge.live{background:#ecfdf3;color:#057857}
+  .badge.study{background:#f4f1ff;color:#5d46b4}
+  .desc{margin:0;color:var(--muted);line-height:1.65}
+  .list{display:grid;gap:8px}
+  .list-item{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start;color:#4d4557;font-size:.95rem;line-height:1.55}
+  .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#aa8451);margin-top:7px}
+  .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{border:1px solid #eadfd5;background:#faf5ef;border-radius:999px;padding:7px 10px;font-size:.75rem;font-weight:900;color:#564d5d}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+  .small-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 12px;border:1px solid var(--line);background:#fff;font-size:.88rem;font-weight:900;transition:transform .18s ease, box-shadow .18s ease}
+  .small-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(32,22,13,.08)}
+  .small-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .small-btn.disabled{pointer-events:none;opacity:.56;background:#f5f0ea}
+  @media (max-width:900px){.case-grid{grid-template-columns:1fr}}
+
+  .project-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .project{grid-column:span 6;border:1px solid var(--line);background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 14px 36px rgba(32,22,13,.06);display:flex;flex-direction:column;transition:transform .24s ease, box-shadow .24s ease}
+  .project:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(32,22,13,.09)}
+  .project:hover .project-shell{transform:translateY(-3px) scale(1.01)}
+  .project.small{grid-column:span 4}
+  .project.quarter{grid-column:span 3}
+  .project-top{height:190px;padding:18px;border-bottom:1px solid var(--line);background:linear-gradient(145deg,#fbf7f2,#f2ebdf);position:relative}
+  .project-shell{height:100%;border-radius:20px;background:linear-gradient(180deg,#18151f,#2b2436);position:relative;overflow:hidden;padding:16px;color:#fff;transition:transform .28s ease, box-shadow .28s ease}
+  .project-shell.light{background:linear-gradient(180deg,#f2ecff,#efe4d5);color:#271f32}
+  .project-shell .tiny{font-size:.76rem;font-weight:900;opacity:.82}
+  .project-shell h4{margin:12px 0 8px;font-size:1.35rem;line-height:1.04;letter-spacing:-.05em}
+  .project-shell p{margin:0;font-size:.86rem;line-height:1.55;max-width:220px;opacity:.78}
+  .ui-elements{position:absolute;right:14px;bottom:14px;display:grid;gap:8px;width:84px}
+  .ui-elements i{height:16px;border-radius:999px;background:rgba(255,255,255,.18)}
+  .project-shell.light .ui-elements i{background:rgba(39,31,50,.12)}
+  .avatar-dot{position:absolute;left:18px;bottom:18px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f2cf7f,#c89f61);box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+  .platforms{position:absolute;left:54px;bottom:22px;display:flex;gap:8px}.platforms i{display:block;width:50px;height:8px;border-radius:999px;background:rgba(255,255,255,.18)}
+  .game-cover{height:100%;border-radius:20px;position:relative;overflow:hidden;color:#fff;display:grid;place-items:center;text-align:center;background:linear-gradient(145deg,#18151f,#44324b 58%,#c89f61)}
+  .game-cover::before{content:"";position:absolute;inset:0;background:var(--cover),linear-gradient(145deg,#18151f,#44324b);background-size:cover;background-position:center;filter:saturate(1.04);transform:scale(1.02)}
+  .game-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,23,.18),rgba(20,18,23,.72))}
+  .game-cover-inner{position:relative;z-index:1;display:grid;gap:10px;justify-items:center;padding:18px}
+  .game-cover h4{margin:0;font-size:1.42rem;line-height:1.02;letter-spacing:-.05em;text-shadow:0 8px 24px rgba(0,0,0,.38)}
+  .play-pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(255,255,255,.92);color:#18151f;padding:9px 14px;font-size:.78rem;font-weight:900;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+  .play-pill::before{content:"";width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:9px solid currentColor}
+  .site-preview{height:100%;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 16px 34px rgba(33,24,16,.11);display:flex;flex-direction:column}
+  .site-preview .mini-bar{padding:9px 12px}
+  .site-hero{min-height:70px;padding:14px;color:#fff;background:var(--cover),linear-gradient(135deg,#272033,#c89f61);background-size:cover;background-position:center;display:flex;align-items:flex-end}
+  .site-hero h4{margin:0;font-size:1.16rem;line-height:1.05;letter-spacing:-.04em;text-shadow:0 8px 22px rgba(0,0,0,.36)}
+  .site-content{padding:12px;display:grid;gap:8px;grid-template-columns:1.2fr .8fr}
+  .site-content i{display:block;min-height:30px;border-radius:11px;background:#f1ebe2}
+  .site-content i:first-child{grid-row:span 2;min-height:68px;background:#eadfd2}
+  .site-preview.dark .site-content i:first-child{background:#312940}
+  .site-preview.dark .site-content i{background:#eee7dd}
+  .project-body{padding:20px;display:flex;flex-direction:column;gap:14px;flex:1}
+  .topline{display:flex;justify-content:space-between;gap:12px;align-items:start}
+  .topline h3{margin:0;font-size:1.1rem;line-height:1.18;letter-spacing:-.03em}
+  .status{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:900;white-space:nowrap}
+  .status.path{background:#fff7ec;color:#b86b1d}.status.soon{background:#fef3c7;color:#8b5d08}.status.local{background:#eef4ff;color:#2759b6}
+  .summary{margin:0;color:var(--muted);font-size:.94rem;line-height:1.62;flex:1}
+  @media (max-width:980px){.project{grid-column:span 12}.project.small,.project.quarter{grid-column:span 6}}
+  @media (max-width:700px){.project.small,.project.quarter{grid-column:span 12}}
+
+  .about-grid{display:grid;grid-template-columns:285px 1fr;gap:20px;align-items:start}
+  .portrait{
+    border:1px solid var(--line); border-radius:28px; overflow:hidden; min-height:335px; position:relative;
+    background:linear-gradient(150deg,#17151c,#342a44 65%, #c89f61); box-shadow:0 18px 42px rgba(32,22,13,.08);
+  }
+  .portrait::after{content:"Oryna";position:absolute;left:18px;bottom:14px;font-size:3rem;line-height:.85;letter-spacing:-.08em;font-weight:900;color:rgba(255,255,255,.14)}
+  .portrait.has-photo::after{display:none}
+  .portrait img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  .portrait-fallback{height:100%;display:grid;place-items:center;color:#fff;font-size:4.6rem;font-weight:900;letter-spacing:-.08em}
+  .about-card{border:1px solid var(--line);background:#fff;border-radius:28px;padding:24px}
+  .about-card p{margin:0 0 14px;color:var(--muted);line-height:1.75}
+  .strongline{color:#403647;font-weight:800}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  .boxy{border:1px solid var(--line);background:#faf6f0;border-radius:22px;padding:16px}
+  .boxy h4{margin:0 0 12px;font-size:1rem;letter-spacing:-.03em}
+  .boxy ul{margin:0;padding-left:18px;color:#554d5f;display:grid;gap:8px;line-height:1.55}
+  .chip-title{margin:18px 0 10px;font-weight:900;letter-spacing:-.02em}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:#f8f2ea;border-radius:999px;padding:8px 11px;color:#52485d;font-size:.84rem;font-weight:900}
+  @media (max-width:900px){.about-grid{grid-template-columns:1fr}.portrait{min-height:260px}.split{grid-template-columns:1fr}}
+
+  #contact{padding:24px 26px}
+  #contact .section-head{margin-bottom:14px}
+  #contact .cta{margin-top:16px}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .field{display:grid;gap:6px}.field.full{grid-column:1/-1}label{font-size:.88rem;font-weight:900;color:#3a3343}
+  input,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:11px 13px;color:var(--ink);outline:none;transition:border-color .18s ease, box-shadow .18s ease}
+  input:focus,textarea:focus{border-color:#b39ce7;box-shadow:0 0 0 4px rgba(124,98,214,.14)}
+  @media (max-width:680px){.contact-grid{grid-template-columns:1fr}}
+
+  .modal{position:fixed;inset:0;background:rgba(20,18,23,.62);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
+  .modal.open{display:flex}
+  .modal-box{width:min(1120px,96vw);height:min(82vh,900px);background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+  .modal-head{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--line);background:#fffbf6}
+  .modal-head strong{font-size:.98rem}.modal-head .spacer{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .modal-box iframe{flex:1;border:0;background:#fff}
+
+  footer{text-align:center;color:var(--muted);padding:30px 20px 36px;font-size:.92rem}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(18px) scale(.99)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+  .reveal{opacity:1;transform:none;animation:fadeUp .72s cubic-bezier(.2,.65,.2,1) both}
+  .delay-1{animation-delay:.05s}.delay-2{animation-delay:.12s}.delay-3{animation-delay:.18s}.delay-4{animation-delay:.24s}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{animation:none;opacity:1;transform:none}
+    .gradient-text,.hero::before,.hero-side::before,.panel.a,.panel.b,.phone,.glass-label,.signature{animation:none}
+    .btn,.small-btn,.project,.case,.project-shell,.mini-browser,.stat,nav a,.drawer a,.lang button{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header>
+  <div class="bar">
+    <a class="brand" href="#top" aria-label="Oryna Kokh Portfolio"><div class="logo" aria-hidden="true">OK</div><span>Oryna Kokh</span></a>
+    <nav>
+      <a href="#experience" data-i="nav.experience">Experience</a>
+      <a href="#projects" data-i="nav.projects">Projects</a>
+      <a href="#about" data-i="nav.about">About</a>
+      <a href="#contact" data-i="nav.contact">Contact</a>
+    </nav>
+    <button class="hamb" id="hamb" type="button" aria-label="Menu">☰</button>
+    <div class="lang" aria-label="Language switcher">
+      <button type="button" data-lang="ru">RU</button>
+      <button type="button" data-lang="de">DE</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </div>
+  <div class="drawer" id="drawer">
+    <a href="#experience" data-i="nav.experience">Experience</a>
+    <a href="#projects" data-i="nav.projects">Projects</a>
+    <a href="#about" data-i="nav.about">About</a>
+    <a href="#contact" data-i="nav.contact">Contact</a>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+  <section class="hero reveal">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div>
+          <div class="eyebrow reveal delay-1">
+            <span class="pill dark">Portfolio 2026</span>
+            <span class="pill" data-i="hero.badge">Junior Developer · Practical project experience</span>
+          </div>
+          <h1 class="reveal delay-2" data-i="hero.title">Junior Developer Portfolio: <span class="gradient-text">practical, adaptable, ready to grow</span>.</h1>
+          <p class="lead reveal delay-3" data-i="hero.text">I’m a <strong>Game & Application Development student</strong> with hands-on experience in websites, UI and interactive projects. This portfolio is meant to show employers that I can learn quickly, work independently and deliver real results — from live client websites to technical and creative study projects.</p>
+          <div class="cta reveal delay-4">
+            <a class="btn primary" href="#experience" data-i="hero.btnExperience">See experience</a>
+            <a class="btn soft" href="#contact" data-i="hero.btnContact">Contact me</a>
+          </div>
+          <div class="note reveal delay-4" data-i="hero.note">My main career direction is broader than only games or websites. These projects are here as proof of practical experience, responsibility and implementation skills.</div>
+        </div>
+        <div class="hero-stats reveal delay-4">
+          <div class="stat"><strong>02</strong><span data-i="hero.s1">live client websites</span></div>
+          <div class="stat"><strong>06+</strong><span data-i="hero.s2">hands-on projects</span></div>
+          <div class="stat"><strong>RU / DE</strong><span data-i="hero.s3">working languages</span></div>
+        </div>
+      </div>
+      <div class="hero-side" aria-hidden="true">
+        <div class="side-wrap">
+          <div class="panel a reveal delay-2">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <h3>Live WordPress websites</h3>
+            <p>Client-oriented work, content structure, responsive adjustments and schedule integration.</p>
+            <div class="lines"><i></i><i></i><i></i></div>
+          </div>
+          <div class="phone"><span></span><span></span><span></span><span></span></div>
+          <div class="mini-proof reveal delay-3">
+            <div class="proof-row"><i></i><span>Client work</span></div>
+            <div class="proof-row"><i></i><span>Responsive UI</span></div>
+            <div class="proof-row"><i></i><span>Finished builds</span></div>
+          </div>
+          <div class="panel b reveal delay-4">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <h3>Interactive study projects</h3>
+            <p>Unity scenes, UI logic, gameplay experiments and small web prototypes.</p>
+            <div class="lines"><i></i><i></i><i></i></div>
+          </div>
+          <div class="signature">OK</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="focus-strip reveal delay-2" aria-label="Professional focus">
+    <div class="focus-item"><strong data-i="focus.f1t">Implementation</strong><span data-i="focus.f1">I turn tasks into usable results.</span></div>
+    <div class="focus-item"><strong data-i="focus.f2t">Learning speed</strong><span data-i="focus.f2">I adapt quickly to tools and workflows.</span></div>
+    <div class="focus-item"><strong data-i="focus.f3t">UI sense</strong><span data-i="focus.f3">I care about structure, clarity and details.</span></div>
+    <div class="focus-item"><strong data-i="focus.f4t">Team readiness</strong><span data-i="focus.f4">I am ready to grow in a professional environment.</span></div>
+  </section>
+
+  <section id="experience" class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-i="experience.kicker">Selected experience</div>
+        <h2 data-i="experience.title">Client work & real projects</h2>
+      </div>
+      <p data-i="experience.text">These two projects are the strongest proof of real practical experience. I worked on yoga studio websites and handled structure, media, content updates, responsive adjustments and integration tasks.</p>
+    </div>
+    <div class="case-grid" id="experienceGrid"></div>
+  </section>
+
+  <section id="projects" class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-i="projects.kicker">Project highlights</div>
+        <h2 data-i="projects.title">Additional technical & creative work</h2>
+      </div>
+      <p data-i="projects.text">These projects are not the core of my professional direction, but they demonstrate initiative, implementation skills and the ability to finish different kinds of tasks.</p>
+    </div>
+    <div class="project-grid" id="projectsGrid"></div>
+  </section>
+
+  <section id="about" class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-i="about.kicker">Profile</div>
+        <h2 data-i="about.title">About me</h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="portrait reveal delay-1" id="portraitBox"><img id="portraitImg" src="1.jpg" alt="Oryna Kokh portrait"></div>
+      <div class="about-card reveal delay-2">
+        <p data-i="about.p1">I’m a motivated student in Game & Application Development with interest in software, digital products and practical implementation.</p>
+        <p data-i="about.p2">What matters most to me is not only the idea, but the ability to <span class="strongline">turn it into a usable result</span> — whether it is a website, a UI concept or an interactive prototype.</p>
+        <p data-i="about.p3">I want employers to see that I already have real hands-on experience, can adapt to different tools and am ready to keep learning quickly in a professional environment.</p>
+        <div class="split">
+          <div class="boxy">
+            <h4 data-i="about.b1">What I bring</h4>
+            <ul id="bringList"></ul>
+          </div>
+          <div class="boxy">
+            <h4 data-i="about.b2">What I worked with</h4>
+            <ul id="workedList"></ul>
+          </div>
+        </div>
+        <div class="chip-title" data-i="about.skills">Skills</div>
+        <div class="chips" id="skills"></div>
+        <div class="chip-title" data-i="about.tools">Tools</div>
+        <div class="chips" id="tools"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section reveal">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-i="contact.kicker">Contact</div>
+        <h2 data-i="contact.title">Let’s connect</h2>
+      </div>
+      <p data-i="contact.text">If you think my profile could fit your team, feel free to contact me. I’d be happy to share more details about my work and learning path.</p>
+    </div>
+    <form id="contactForm" method="POST" action="https://formspree.io/f/mdkyoylo">
+      <div class="contact-grid">
+        <div class="field"><label for="name" data-i="contact.name">Name</label><input id="name" name="name" required></div>
+        <div class="field"><label for="email" data-i="contact.email">Email</label><input id="email" name="email" type="email" required></div>
+        <div class="field full"><label for="message" data-i="contact.message">Message</label><textarea id="message" name="message" rows="4" required></textarea></div>
+      </div>
+      <div class="cta"><button class="btn primary" type="submit" data-i="contact.send">Send message</button><span id="formStatus" style="align-self:center;color:var(--muted)"></span></div>
+    </form>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> Oryna Kokh</footer>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <strong id="m-title">Preview</strong>
+      <div class="spacer">
+        <a id="m-open" class="small-btn primary" target="_blank" rel="noopener">Open</a>
+        <a id="m-src" class="small-btn" target="_blank" rel="noopener">Source</a>
+        <button id="m-close" class="small-btn" type="button">Close</button>
+      </div>
+    </div>
+    <iframe id="m-frame" title="Preview"></iframe>
+  </div>
+</div>
+
+<script>
+const I18N = {
+  ru:{
+    nav:{experience:'Опыт',projects:'Проекты',about:'Обо мне',contact:'Контакты'},
+    hero:{
+      badge:'Future dual student · Wirtschaftsinformatik & Software',
+      title:'Не с ноутбуком в руках родилась — <span class="gradient-text">зато умею быстро учиться и делать</span>.',
+      text:'Я поступаю на duales Studium в направлении <strong>Wirtschaftsinformatik с software-фокусом</strong> и сейчас учусь на Game & Application Development. Мой путь не идеально прямой, зато очень практичный: я делала сайты, работала с WordPress и Elementor, собирала небольшие frontend-проекты, игровые прототипы и уже знакома с базами данных и сетями. Это портфолио показывает одну простую вещь: я не начинаю с нуля.',
+      btnExperience:'Смотреть опыт',
+      btnContact:'Связаться',
+      note:'Я еще в начале профессионального пути, но уже знаю, как доводить реальные задачи до результата, разбираться в новых инструментах и улучшать работу, пока она действительно не работает.',
+      s1:'живых клиентских сайта',s2:'практических проектов',s3:'рабочие языки'
+    },
+    focus:{f1t:'Не с нуля',f1:'Уже есть реальные сайты, учебные проекты и прототипы.',f2t:'Быстро учусь',f2:'Разбираюсь в новых инструментах самостоятельно и без паники.',f3t:'Software mindset',f3:'Люблю структуру, логику и понятные цифровые решения.',f4t:'Готова к практике',f4:'Хочу расти в команде и учиться на реальных задачах.'},
+    experience:{
+      kicker:'Selected experience',
+      title:'Реальные проекты и клиентская работа',
+      text:'Это мои самые важные проекты, потому что они были не просто учебным упражнением. Я работала над реальными сайтами йога-студий: структура страниц, медиа, тексты, мобильные правки и интеграции.'
+    },
+    projects:{
+      kicker:'Project highlights',
+      title:'Что я уже пробовала и построила',
+      text:'Игры, сайты и маленькие frontend-проекты показывают мой практический путь: я пробую, учусь, исправляю ошибки и довожу идеи до кликабельного результата.'
+    },
+    about:{
+      kicker:'Profile',title:'Обо мне',
+      p1:'Скоро я начинаю duales Studium в области Wirtschaftsinformatik с software-направлением. Сейчас я учусь на Game & Application Development, поэтому у меня уже есть практический контакт с логикой, UI, сайтами, интерактивными проектами, базами данных и сетевыми основами.',
+      p2:'Я не притворяюсь человеком, который с детства писал код во сне. Но я умею <span class="strongline">учиться быстро, самостоятельно и с любопытством</span> — и мне нравится превращать идеи в то, чем можно реально пользоваться.',
+      p3:'Это портфолио для фирм, которым важно увидеть не идеальную биографию, а потенциал, дисциплину и первые доказательства работы: я уже строила проекты, решала маленькие технические проблемы и доводила результат до конца.',
+      b1:'Что я могу предложить',b2:'С чем я работала',skills:'Навыки',tools:'Инструменты'
+    },
+    contact:{
+      kicker:'Contact',title:'Связаться',text:'Если вам кажется, что мой профиль может подойти вашей команде, буду рада сообщению. Я с удовольствием расскажу больше о своём опыте и пути обучения.',
+      name:'Имя',email:'Email',message:'Сообщение',send:'Отправить сообщение'
+    },
+    labels:{open:'Открыть',preview:'Preview',source:'Source'}
+  },
+  de:{
+    nav:{experience:'Erfahrung',projects:'Projekte',about:'Über mich',contact:'Kontakt'},
+    hero:{
+      badge:'Angehende duale Studentin · Wirtschaftsinformatik & Software',
+      title:'Nicht mit Laptop in der Hand geboren — <span class="gradient-text">aber gut darin, schnell zu lernen und umzusetzen</span>.',
+      text:'Ich starte ein duales Studium im Bereich <strong>Wirtschaftsinformatik mit Software-Schwerpunkt</strong> und studiere aktuell Game & Application Development. Mein Weg ist nicht komplett geradlinig, aber sehr praktisch: Ich habe Websites gebaut, mit WordPress und Elementor gearbeitet, kleine Frontend-Projekte umgesetzt, interaktive Spiel-Prototypen entwickelt und Grundlagen in Datenbanken und Netzwerken gelernt.',
+      btnExperience:'Erfahrung ansehen',
+      btnContact:'Kontakt',
+      note:'Ich stehe noch am Anfang meines beruflichen Weges, aber ich weiß bereits, wie es ist, echte Aufgaben fertigzustellen, neue Tools zu verstehen und etwas so lange zu verbessern, bis es funktioniert.',
+      s1:'Live-Kundenwebsites',s2:'praktische Projekte',s3:'Arbeitssprachen'
+    },
+    focus:{f1t:'Nicht bei null',f1:'Ich habe bereits reale Websites, Lernprojekte und Prototypen umgesetzt.',f2t:'Schnelles Lernen',f2:'Ich arbeite mich selbstständig in neue Tools ein und bleibe dran.',f3t:'Software-Denken',f3:'Mich interessieren Struktur, Logik und nutzbare digitale Lösungen.',f4t:'Praxisbereit',f4:'Ich möchte im Team wachsen und an echten Aufgaben lernen.'},
+    experience:{
+      kicker:'Selected experience',
+      title:'Reale Projekte & Kundenarbeit',
+      text:'Diese Projekte sind für mich besonders wichtig, weil sie keine reine Übung waren. Ich habe an realen Yoga-Studio-Websites gearbeitet: Seitenstruktur, Medien, Texte, mobile Anpassungen und Integrationen.'
+    },
+    projects:{
+      kicker:'Project highlights',
+      title:'Was ich bereits ausprobiert und gebaut habe',
+      text:'Spiele, Websites und kleine Frontend-Projekte zeigen meinen praktischen Weg: ausprobieren, lernen, Fehler korrigieren und Ideen zu einem klickbaren Ergebnis bringen.'
+    },
+    about:{
+      kicker:'Profile',title:'Über mich',
+      p1:'Ich beginne bald ein duales Studium im Bereich Wirtschaftsinformatik mit Software-Schwerpunkt. Aktuell studiere ich Game & Application Development und habe dadurch bereits praktischen Kontakt mit Logik, UI, Websites, interaktiven Projekten, Datenbanken und Netzwerkgrundlagen.',
+      p2:'Ich tue nicht so, als hätte ich schon als Kind im Schlaf Code geschrieben. Aber ich kann <span class="strongline">schnell, selbstständig und mit Neugier lernen</span> — und ich mag es, Ideen in etwas Nutzbares zu verwandeln.',
+      p3:'Dieses Portfolio richtet sich an Firmen, die nicht nur einen perfekten Lebenslauf sehen möchten, sondern Potenzial, Disziplin und erste Belege für praktische Arbeit: Ich habe bereits Projekte gebaut, kleine technische Probleme gelöst und Ergebnisse fertig umgesetzt.',
+      b1:'Was ich mitbringe',b2:'Womit ich gearbeitet habe',skills:'Skills',tools:'Tools'
+    },
+    contact:{
+      kicker:'Contact',title:'Kontakt',text:'Wenn du denkst, dass mein Profil zu deinem Team passen könnte, freue ich mich über eine Nachricht. Gern erzähle ich mehr über meinen Weg und meine Erfahrungen.',
+      name:'Name',email:'E-Mail',message:'Nachricht',send:'Nachricht senden'
+    },
+    labels:{open:'Öffnen',preview:'Vorschau',source:'Quelle'}
+  },
+  en:{
+    nav:{experience:'Experience',projects:'Projects',about:'About',contact:'Contact'},
+    hero:{
+      badge:'Future dual student · Business informatics & software',
+      title:'Not born with a laptop in my hands — <span class="gradient-text">but good at learning fast and building things</span>.',
+      text:'I am starting a dual study program in <strong>business informatics with a software focus</strong> and currently study Game & Application Development. My path is not perfectly straight, but it is very practical: I have built websites, worked with WordPress and Elementor, created small frontend projects, developed interactive game prototypes and learned the basics of databases and networks. This portfolio shows one simple thing: I am not starting from zero.',
+      btnExperience:'See experience',
+      btnContact:'Contact me',
+      note:'I am still at the beginning of my professional journey, but I already know how it feels to finish real tasks, learn new tools and improve something until it actually works.',
+      s1:'live client websites',s2:'hands-on projects',s3:'working languages'
+    },
+    focus:{f1t:'Not from zero',f1:'I already have real websites, learning projects and prototypes behind me.',f2t:'Fast learner',f2:'I work into new tools independently and keep going.',f3t:'Software mindset',f3:'I care about structure, logic and usable digital solutions.',f4t:'Ready for practice',f4:'I want to grow in a team and learn from real tasks.'},
+    experience:{
+      kicker:'Selected experience',
+      title:'Client work & real projects',
+      text:'These projects matter most to me because they were not just exercises. I worked on real yoga studio websites: page structure, media, copy, mobile adjustments and integrations.'
+    },
+    projects:{
+      kicker:'Project highlights',
+      title:'What I have already tried and built',
+      text:'Games, websites and small frontend projects show my practical path: trying things, learning, fixing mistakes and turning ideas into something clickable.'
+    },
+    about:{
+      kicker:'Profile',title:'About me',
+      p1:'I will soon start a dual study program in business informatics with a software focus. Right now I study Game & Application Development, which has already given me practical contact with logic, UI, websites, interactive projects, databases and network basics.',
+      p2:'I do not pretend that I wrote code in my sleep as a child. But I can <span class="strongline">learn quickly, independently and with curiosity</span> — and I enjoy turning ideas into something people can actually use.',
+      p3:'This portfolio is for companies that want to see more than a perfect CV: potential, discipline and first proof of practical work. I have already built projects, solved small technical problems and finished things.',
+      b1:'What I bring',b2:'What I worked with',skills:'Skills',tools:'Tools'
+    },
+    contact:{
+      kicker:'Contact',title:'Let’s connect',text:'If you think my profile could fit your team, feel free to contact me. I’d be happy to share more details about my work and learning path.',
+      name:'Name',email:'Email',message:'Message',send:'Send message'
+    },
+    labels:{open:'Open',preview:'Preview',source:'Source'}
+  }
+};
+
+const EXPERIENCE = [
+  {
+    title:'The Space Cologne',
+    url:'https://thespacecologne.com/',
+    status:'Live',
+    badge:'live',
+    label:'WordPress website',
+    visual:'a',
+    desc:{
+      ru:'Сайт для йога- и wellbeing-студии. Реальный клиентский проект, в котором я работала с контентом, структурой и адаптацией сайта.',
+      de:'Website für ein Yoga- und Wellbeing-Studio. Ein reales Kundenprojekt, bei dem ich an Content, Struktur und responsiver Anpassung gearbeitet habe.',
+      en:'Website for a yoga and wellbeing studio. A real client project where I worked with content, structure and responsive adjustments.'
+    },
+    bullets:{
+      ru:['Структура страниц и наполнение контентом','Работа с изображениями, видео и текстами','Адаптация под мобильные устройства','Интеграция расписания / B-Sport'],
+      de:['Seitenstruktur und Content-Pflege','Arbeit mit Bildern, Videos und Texten','Optimierung für mobile Geräte','Kursplan- / B-Sport-Integration'],
+      en:['Page structure and content updates','Work with images, videos and copy','Responsive adjustments for mobile','Schedule / B-Sport integration']
+    },
+    tags:['WordPress','Elementor','Responsive','B-Sport']
+  },
+  {
+    title:'The Other Space',
+    url:'https://theotherspace.de/',
+    status:'Live',
+    badge:'live',
+    label:'WordPress website',
+    visual:'b',
+    desc:{
+      ru:'Отдельный сайт для второго пространства. Проект показывает, что я умею работать не только с одной страницей, а с полноценной визуальной и контентной адаптацией сайта.',
+      de:'Separate Website für den zweiten Space. Das Projekt zeigt, dass ich nicht nur einzelne Seiten, sondern eine komplette visuelle und inhaltliche Anpassung umsetzen kann.',
+      en:'Separate website for the second space. The project shows that I can handle not just single pages, but a full visual and content adaptation of a website.'
+    },
+    bullets:{
+      ru:['Создание и настройка страниц','Визуальная адаптация под новый бренд','Работа с медиа и текстами','Responsive-настройки и общая полировка'],
+      de:['Erstellung und Einrichtung von Seiten','Visuelle Anpassung an die neue Marke','Arbeit mit Medien und Texten','Responsive Optimierung und allgemeines Finetuning'],
+      en:['Page creation and setup','Visual adaptation for a new brand','Work with media and texts','Responsive tuning and general polishing']
+    },
+    tags:['WordPress','Elementor','Brand adaptation','Responsive']
+  }
+];
+
+const PROJECTS = [
+  {
+    title:'Little Red Riding Hood',
+    url:'games/red-riding-hood/index.html',
+    status:'Build path',
+    type:'path',
+    shell:'dark',
+    visual:'game',
+    cover:'linear-gradient(145deg,rgba(72,27,34,.18),rgba(12,10,16,.62)),url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=70")',
+    className:'project',
+    desc:{
+      ru:'Учебная Unity-игра по мотивам «Красной шапочки». Показывает базовую игровую логику, работу со сценами и интеракции.',
+      de:'Unity-Lernspiel nach Rotkäppchen. Zeigt grundlegende Spiellogik, Szenenarbeit und Interaktionen.',
+      en:'A Unity learning game inspired by Little Red Riding Hood. It demonstrates basic gameplay logic, scenes and interactions.'
+    },
+    tags:['Unity','2D','Gameplay','WebGL']
+  },
+  {
+    title:'Dress Up Game',
+    url:'games/dress-up/index.html',
+    status:'Build path',
+    type:'path',
+    shell:'light',
+    visual:'game',
+    cover:'linear-gradient(145deg,rgba(124,98,214,.20),rgba(20,18,23,.54)),url("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=70")',
+    className:'project',
+    desc:{
+      ru:'Игра с переодеванием персонажа. Проект подчёркивает работу с UI, кнопками, логикой выбора и визуальной обратной связью.',
+      de:'Dress-up-Spiel. Das Projekt zeigt Arbeit mit UI, Buttons, Auswahl-Logik und visuellem Feedback.',
+      en:'A dress-up game. The project highlights UI work, buttons, selection logic and visual feedback.'
+    },
+    tags:['Unity','UI','Interaction','WebGL']
+  },
+  {
+    title:'Server Runner',
+    url:'games/server-runner/index.html',
+    status:'Build path',
+    type:'path',
+    shell:'dark',
+    visual:'game',
+    cover:'linear-gradient(145deg,rgba(22,49,72,.20),rgba(20,18,23,.66)),url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=70")',
+    className:'project',
+    desc:{
+      ru:'Небольшой игровой прототип с персонажем и выбором разных серверов. Показывает механику выбора, стартовый экран и логику перехода к игре.',
+      de:'Kleiner Spiel-Prototyp mit Charakter und Auswahl verschiedener Server. Zeigt Auswahlmechanik, Startscreen und Uebergang ins Spiel.',
+      en:'A small game prototype with a character and selectable servers. It shows choice mechanics, a start screen and the transition into gameplay.'
+    },
+    tags:['Unity','Menu','Character','Prototype']
+  },
+  {
+    title:'Pulse Fit',
+    url:'index2.html',
+    status:'Local demo',
+    type:'local',
+    shell:'light',
+    visual:'site',
+    cover:'linear-gradient(135deg,rgba(20,18,23,.18),rgba(124,98,214,.16)),url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=70")',
+    className:'project quarter',
+    desc:{
+      ru:'Фитнес-сайт с энергичной визуальной подачей, секциями для тренировок и понятной структурой лендинга.',
+      de:'Fitness-Website mit energischer visueller Gestaltung, Trainingssektionen und klarer Landingpage-Struktur.',
+      en:'A fitness website with energetic visuals, workout sections and a clear landing page structure.'
+    },
+    tags:['HTML','CSS','Landing Page']
+  },
+  {
+    title:'Leaf & Letter Books',
+    url:'index3.html',
+    status:'Local demo',
+    type:'local',
+    shell:'light',
+    visual:'site',
+    cover:'linear-gradient(135deg,rgba(36,25,18,.16),rgba(136,184,170,.18)),url("https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=70")',
+    className:'project quarter',
+    desc:{
+      ru:'Книжный сайт с мягкой атмосферой, карточками книг и спокойной визуальной системой.',
+      de:'Buch-Website mit ruhiger Atmosphäre, Buchkarten und weicher visueller Gestaltung.',
+      en:'A book website with a calm atmosphere, book cards and a soft visual system.'
+    },
+    tags:['HTML','CSS','Books']
+  },
+  {
+    title:'NEON VIGILANTES',
+    url:'index4.html',
+    status:'Local demo',
+    type:'local',
+    shell:'dark',
+    visual:'site',
+    cover:'linear-gradient(135deg,rgba(20,18,23,.12),rgba(124,98,214,.28)),url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=70")',
+    className:'project quarter',
+    desc:{
+      ru:'Стилизованный сайт в неоновом настроении с яркой игровой атмосферой и выразительным визуальным направлением.',
+      de:'Stilisierte Website mit Neon-Stimmung, spielerischer Atmosphäre und starkem visuellen Stil.',
+      en:'A stylized neon-themed website with a bold game-like mood and expressive visual direction.'
+    },
+    tags:['HTML','CSS','Visual Design']
+  },
+  {
+    title:'Luma Studio',
+    url:'index5.html',
+    status:'Local demo',
+    type:'local',
+    shell:'dark',
+    visual:'site',
+    cover:'linear-gradient(135deg,rgba(20,18,23,.18),rgba(200,159,97,.22)),url("https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=70")',
+    className:'project quarter',
+    desc:{
+      ru:'Сайт студии света и конфигуратор лампы с аккуратным интерфейсом, SVG-элементами и экспортом результата.',
+      de:'Lichtstudio-Website und Lampen-Konfigurator mit sauberem Interface, SVG-Elementen und Export.',
+      en:'A lighting studio website and lamp configurator with a clean interface, SVG elements and export.'
+    },
+    tags:['JavaScript','SVG','Configurator']
+  }
+];
+
+const SKILLS = ['Problem Solving','HTML','CSS','JavaScript','WordPress','Elementor','Databases','Networks','Unity','C#','UI/UX','Responsive Design'];
+const TOOLS = ['VS Code','Git/GitHub','WordPress','Elementor','B-Sport','All-Inkl','Photoshop','Illustrator'];
+const BRING = {
+  ru:['Быстро учусь и адаптируюсь к новым инструментам','Умею доводить задачи до законченного результата','Есть опыт реальных клиентских задач','Комбинирую техническое и визуальное мышление'],
+  de:['Lerne schnell und passe mich neuen Tools an','Kann Aufgaben bis zum fertigen Ergebnis umsetzen','Habe Erfahrung mit realen Kundenaufgaben','Verbinde technisches und visuelles Denken'],
+  en:['I learn quickly and adapt to new tools','I can bring tasks to a finished result','I already have experience with real client work','I combine technical and visual thinking']
+};
+const WORKED = {
+  ru:['WordPress и Elementor','Адаптивные страницы и контент','Unity-сцены, UI и игровая логика','Небольшие HTML/CSS/JS-проекты','Основы баз данных и сетей'],
+  de:['WordPress und Elementor','Responsive Seiten und Content','Unity-Szenen, UI und Spiellogik','Kleinere HTML/CSS/JS-Projekte','Grundlagen in Datenbanken und Netzwerken'],
+  en:['WordPress and Elementor','Responsive pages and content','Unity scenes, UI and gameplay logic','Small HTML/CSS/JS projects','Database and network basics']
+};
+
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+$('#year').textContent = new Date().getFullYear();
+
+const portraitBox = $('#portraitBox');
+const portraitImg = $('#portraitImg');
+const portraitSources = ['1.jpg','1.png','1.jpeg','1.webp'];
+let portraitIndex = 0;
+portraitImg.addEventListener('load',()=>portraitBox.classList.add('has-photo'));
+portraitImg.addEventListener('error',()=>{
+  portraitIndex += 1;
+  if(portraitIndex < portraitSources.length){
+    portraitImg.src = portraitSources[portraitIndex];
+    return;
+  }
+  portraitImg.replaceWith(Object.assign(document.createElement('div'),{className:'portrait-fallback',textContent:'OK'}));
+});
+
+function repoUrl(path){
+  if(!location.hostname.endsWith('github.io') || !path || path === '#' || /^https?:\/\//.test(path)) return null;
+  const user = location.hostname.split('.')[0];
+  const repo = location.pathname.split('/').filter(Boolean)[0] || '';
+  return repo ? `https://github.com/${user}/${repo}/blob/main/${path}` : null;
+}
+function isExternal(url){return /^https?:\/\//.test(url || '')}
+function esc(str=''){return str}
+
+function experienceVisual(type,label){
+  const heroCls = type === 'b' ? 'hero-box alt' : 'hero-box';
+  return `
+    <div class="mini-browser">
+      <div class="mini-bar"><i></i><i></i><i></i></div>
+      <div class="mini-page">
+        <div class="${heroCls}"></div>
+        <div class="row-2"><div class="mini-card tall"></div><div class="mini-card"></div></div>
+        <div class="row-3"><div class="mini-card"></div><div class="mini-card"></div><div class="mini-card"></div></div>
+      </div>
+    </div>
+    <div class="glass-label">${label}</div>`;
+}
+
+function renderExperience(lang,t){
+  $('#experienceGrid').innerHTML = EXPERIENCE.map((item,idx)=>{
+    const bullets = (item.bullets?.[lang] || item.bullets?.en || []).map(text=>`<div class="list-item"><span class="dot"></span><span>${text}</span></div>`).join('');
+    const tags = item.tags.map(tag=>`<span class="tag">${tag}</span>`).join('');
+    return `
+      <article class="case reveal delay-${(idx%4)+1}">
+        <div class="case-visual">${experienceVisual(item.visual,item.label)}</div>
+        <div class="case-body">
+          <div class="meta"><h3>${item.title}</h3><span class="badge ${item.badge}">${item.status}</span></div>
+          <p class="desc">${item.desc?.[lang] || item.desc?.en || ''}</p>
+          <div class="list">${bullets}</div>
+          <div class="tags">${tags}</div>
+          <div class="actions">
+            <a class="small-btn primary" href="${item.url}" target="_blank" rel="noopener">${t.labels.open}</a>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+function projectShell(item){
+  const light = item.shell === 'light';
+  const cover = item.cover || 'linear-gradient(145deg,#18151f,#44324b)';
+  if(item.visual === 'game'){
+    return `
+      <div class="game-cover" style='--cover:${cover}'>
+        <div class="game-cover-inner">
+          <div class="tiny">${item.type === 'path' ? 'Unity project' : 'Practice project'}</div>
+          <h4>${item.title}</h4>
+          <span class="play-pill">Play</span>
+        </div>
+      </div>`;
+  }
+  if(item.visual === 'site'){
+    return `
+      <div class="site-preview ${light ? '' : 'dark'}" style='--cover:${cover}'>
+        <div class="mini-bar"><i></i><i></i><i></i></div>
+        <div class="site-hero"><h4>${item.title}</h4></div>
+        <div class="site-content"><i></i><i></i><i></i></div>
+      </div>`;
+  }
+  return `
+    <div class="project-shell ${light ? 'light' : ''}">
+      <div class="tiny">${item.type === 'path' ? 'Unity project' : 'Practice project'}</div>
+      <h4>${item.title}</h4>
+      <p>${item.type === 'path' ? 'Interactive build, UI and implementation logic.' : 'Small project showing structure, frontend work and implementation.'}</p>
+      <div class="ui-elements"><i></i><i></i><i></i></div>
+      ${item.type === 'path' ? '<div class="avatar-dot"></div><div class="platforms"><i></i><i></i></div>' : ''}
+    </div>`;
+}
+
+function renderProjects(lang,t){
+  $('#projectsGrid').innerHTML = PROJECTS.map((item,idx)=>{
+    const tags = item.tags.map(tag=>`<span class="tag">${tag}</span>`).join('');
+    const ext = isExternal(item.url);
+    const src = repoUrl(item.url);
+    const previewBtn = !ext && item.url && item.url !== '#' ? `<button class="small-btn" type="button" data-preview="${item.url}" data-title="${item.title}">${t.labels.preview}</button>` : '';
+    const sourceBtn = src ? `<a class="small-btn" href="${src}" target="_blank" rel="noopener">${t.labels.source}</a>` : '';
+    const openBtn = item.url && item.url !== '#' ? `<a class="small-btn primary" href="${item.url}" target="_blank" rel="noopener">${t.labels.open}</a>` : `<span class="small-btn disabled">${item.status}</span>`;
+    return `
+      <article class="${item.className} reveal delay-${(idx%4)+1}">
+        <div class="project-top">${projectShell(item)}</div>
+        <div class="project-body">
+          <div class="topline"><h3>${item.title}</h3><span class="status ${item.type}">${item.status}</span></div>
+          <p class="summary">${item.desc?.[lang] || item.desc?.en || ''}</p>
+          <div class="tags">${tags}</div>
+          <div class="actions">${openBtn}${previewBtn}${sourceBtn}</div>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+function renderLists(lang){
+  $('#bringList').innerHTML = (BRING[lang] || BRING.en).map(item=>`<li>${item}</li>`).join('');
+  $('#workedList').innerHTML = (WORKED[lang] || WORKED.en).map(item=>`<li>${item}</li>`).join('');
+}
+
+function renderChips(){
+  $('#skills').innerHTML = SKILLS.map(x=>`<span class="chip">${x}</span>`).join('');
+  $('#tools').innerHTML = TOOLS.map(x=>`<span class="chip">${x}</span>`).join('');
+}
+
+function render(lang){
+  const t = I18N[lang] || I18N.ru;
+  document.documentElement.lang = lang;
+  $$('[data-i]').forEach(el=>{
+    const path = el.dataset.i.split('.');
+    let value = t;
+    for(const key of path) value = value?.[key];
+    if(typeof value === 'string') el.innerHTML = value;
+  });
+  $$('[data-lang]').forEach(btn=>btn.classList.toggle('active', btn.dataset.lang === lang));
+  renderExperience(lang,t);
+  renderProjects(lang,t);
+  renderLists(lang);
+  revealObserver();
+}
+
+renderChips();
+let lang = localStorage.getItem('lang') || (navigator.language || 'ru').slice(0,2);
+if(!I18N[lang]) lang = 'ru';
+render(lang);
+$$('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{localStorage.setItem('lang',btn.dataset.lang);render(btn.dataset.lang)}));
+
+const modal = $('#modal'), mTitle = $('#m-title'), mOpen = $('#m-open'), mSrc = $('#m-src'), mFrame = $('#m-frame');
+document.body.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-preview]');
+  if(!btn) return;
+  const href = btn.dataset.preview;
+  mTitle.textContent = btn.dataset.title;
+  mOpen.href = href;
+  const src = repoUrl(href);
+  mSrc.style.display = src ? 'inline-flex' : 'none';
+  if(src) mSrc.href = src;
+  mFrame.src = href;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+});
+function closePreview(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');mFrame.src='about:blank'}
+$('#m-close').addEventListener('click', closePreview);
+modal.addEventListener('click', e=>{if(e.target === modal) closePreview()});
+
+const hamb = $('#hamb'), drawer = $('#drawer');
+hamb.addEventListener('click',()=>drawer.classList.toggle('open'));
+drawer.addEventListener('click',()=>drawer.classList.remove('open'));
+
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+  link.addEventListener('click',()=>drawer.classList.remove('open'));
+});
+
+function revealObserver(){
+  // Content is visible by default; the fade-up effect is CSS-only.
+  // This keeps the page from becoming blank if a browser blocks or delays JavaScript.
+}
+</script>
+</body>
+</html>
+

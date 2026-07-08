@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Luma Studio — Custom Lamp Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f7fb; --ink:#121418; --muted:#687082;
+    --card:#ffffff; --edge:#e7e9f0; --accent:#6e7bff; --accent2:#68e1fd; --good:#2ecc71; --bad:#ff6b6b;
+    --radius:22px; --shadow:0 30px 80px rgba(18,20,24,.08);
+    --glass: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.35));
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:Manrope,system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);background:radial-gradient(1200px 600px at 80% -10%, #e9f2ff 0%, #f6f7fb 60%, #fbfcff 100%)}
+  a{color:inherit;text-decoration:none}
+
+  /* App chrome */
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(246,247,251,.9),rgba(246,247,251,.6));backdrop-filter:blur(6px);border-bottom:1px solid var(--edge)}
+  .bar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:38px;height:38px;border-radius:12px;background:conic-gradient(from 0deg, var(--accent), var(--accent2), #ffd36e, var(--accent));box-shadow:0 0 0 6px rgba(255,255,255,.8) inset, 0 10px 30px rgba(110,123,255,.25)}
+  h1{font-size:1.1rem;margin:0;font-weight:800;letter-spacing:.06em}
+  nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
+  nav a{padding:8px 10px;border-radius:12px;border:1px solid var(--edge);background:var(--card)}
+
+  /* Layout */
+  main{max-width:1200px;margin:0 auto;padding:28px 18px;display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
+  .panel{background:var(--card);border:1px solid var(--edge);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .pad{padding:18px}
+  h2{margin:0 0 8px;font-size:1.6rem}
+  .muted{color:var(--muted)}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center}
+  .cta{display:flex;gap:10px;margin-top:10px}
+  .btn{border:0;border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:white}
+  .btn-ghost{background:white;border:1px solid var(--edge)}
+
+  /* Preview stage */
+  .stage{position:relative;height:420px;background:
+    radial-gradient(600px 240px at 70% 10%, #fff6c2 0%, rgba(255,246,194,.4) 25%, transparent 60%),
+    linear-gradient(180deg,#eef4ff, #fafcff 60%);
+    display:grid;place-items:center;}
+  .room{position:absolute;inset:0;pointer-events:none}
+  .room:before{content:"";position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.04))}
+  .lampWrap{position:relative;width:320px;height:320px;}
+
+  /* Config */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+  .card{border:1px solid var(--edge);border-radius:16px;padding:12px;background:var(--card)}
+  .col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
+  label{display:block;font-size:.9rem;margin-bottom:6px;color:#374151}
+  select,input[type="range"],input[type="number"]{width:100%;padding:10px;border:1px solid var(--edge);border-radius:12px;background:white}
+  .swatches{display:flex;gap:8px;flex-wrap:wrap}
+  .swatch{width:28px;height:28px;border-radius:999px;border:2px solid #fff;box-shadow:0 0 0 2px var(--edge);cursor:pointer}
+  .swatch[aria-checked="true"]{outline:3px solid var(--accent)}
+  .price{font-size:2rem;font-weight:800}
+
+  /* Cart */
+  .cartItem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-bottom:1px dashed var(--edge)}
+  .cartItem:last-child{border-bottom:0}
+  .tiny{font-size:.85rem;color:var(--muted)}
+
+  /* Night mode toggle */
+  .toggle{display:flex;align-items:center;gap:8px}
+  .switch{position:relative;width:56px;height:30px;border-radius:999px;background:#dbe2ef;border:1px solid var(--edge)}
+  .knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:999px;background:white;box-shadow:0 6px 14px rgba(0,0,0,.15);transition:.25s}
+  .switch[data-on="true"]{background:#0b1222}
+  .switch[data-on="true"] .knob{left:29px;background:#ffe58a}
+
+  /* Responsive */
+  @media (max-width:1024px){main{grid-template-columns:1fr}.hero{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand"><div class="logo" aria-hidden="true"></div><h1>Luma Studio</h1></div>
+    <nav>
+      <ul>
+        <li><a href="#builder">Builder</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#checkout">Checkout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="builder">
+  <section class="panel pad hero">
+    <div>
+      <h2>Design your lamp</h2>
+      <p class="muted">Pick a model, material and glow. Our preview simulates light spread and ambience. Every configuration shows a live price.</p>
+      <div class="cta">
+        <button class="btn btn-primary" id="quickWarm">Warm vibe</button>
+        <button class="btn btn-ghost" id="quickCool">Cool vibe</button>
+      </div>
+      <div class="toggle" style="margin-top:12px">
+        <div>Day / Night</div>
+        <div class="switch" id="mode" role="switch" tabindex="0" aria-checked="false"><div class="knob"></div></div>
+      </div>
+    </div>
+    <div class="stage panel">
+      <svg class="room" viewBox="0 0 800 420" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#eef4ff"/>
+            <stop offset="100%" stop-color="#fafcff"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="800" height="420" fill="url(#wall)"/>
+        <rect x="60" y="240" width="200" height="140" rx="14" fill="#fff" stroke="#e7e9f0"/>
+        <rect x="540" y="200" width="200" height="140" rx="20" fill="#fff" stroke="#e7e9f0"/>
+        <circle cx="300" cy="310" r="8" fill="#c8cedd"/>
+        <circle cx="500" cy="330" r="6" fill="#c8cedd"/>
+      </svg>
+      <div class="lampWrap">
+        <svg id="preview" viewBox="0 0 200 200" width="320" height="320" aria-label="Lamp preview">
+          <!-- dynamic -->
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel pad">
+    <h2>Configurator</h2>
+    <p class="muted">Fine‑tune style, light and details. The preview updates instantly.</p>
+    <div class="grid" style="margin-top:10px">
+      <div class="card col-6">
+        <label for="model">Model</label>
+        <select id="model">
+          <option value="pendant">Pendant</option>
+          <option value="desk">Desk Lamp</option>
+          <option value="floor">Floor Lamp</option>
+        </select>
+      </div>
+      <div class="card col-6">
+        <label for="material">Material</label>
+        <select id="material">
+          <option value="glass">Glass</option>
+          <option value="fabric">Fabric</option>
+          <option value="metal">Metal</option>
+        </select>
+      </div>
+
+      <div class="card col-8">
+        <label>Shade Color</label>
+        <div class="swatches" id="colors"></div>
+      </div>
+      <div class="card col-4">
+        <label for="k">Color Temp (K)</label>
+        <select id="k">
+          <option value="2700">2700 — Warm</option>
+          <option value="4000" selected>4000 — Neutral</option>
+          <option value="6500">6500 — Cool</option>
+        </select>
+      </div>
+
+      <div class="card col-6">
+        <label for="lumens">Brightness (lm)</label>
+        <input type="range" id="lumens" min="200" max="1200" step="50" value="700"/>
+        <div class="tiny"><span id="lumensVal">700</span> lm</div>
+      </div>
+      <div class="card col-6">
+        <label for="cable">Cable/Stem length (cm)</label>
+        <input type="range" id="cable" min="20" max="200" step="5" value="100"/>
+        <div class="tiny"><span id="cableVal">100</span> cm</div>
+      </div>
+
+      <div class="card col-6">
+        <label for="qty">Quantity</label>
+        <input type="number" id="qty" min="1" value="1"/>
+      </div>
+      <div class="card col-6">
+        <label>Total</label>
+        <div class="price" id="price">€0</div>
+        <div class="tiny" id="priceNote">Includes eco LED bulb</div>
+      </div>
+
+      <div class="col-12" style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn btn-ghost" id="reset">Reset</button>
+        <button class="btn btn-primary" id="add">Add to cart</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="panel pad">
+    <h2>Gallery</h2>
+    <p class="muted">Mood presets — click to apply.</p>
+    <div class="grid" id="presets"></div>
+  </section>
+
+  <section id="checkout" class="panel pad">
+    <h2>Cart & Checkout</h2>
+    <div id="cart"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div class="muted">Shipping is calculated at checkout. 2‑year warranty.</div>
+      <button class="btn btn-primary" id="buy">Place order</button>
+    </div>
+  </section>
+</main>
+
+<script>
+// ---------- Data ----------
+const COLORS = [
+  {name:'Opal', hex:'#ffffff'},
+  {name:'Mist', hex:'#e5eefc'},
+  {name:'Amber', hex:'#ffd36e'},
+  {name:'Coral', hex:'#ff9c7a'},
+  {name:'Mint', hex:'#93ffd8'},
+  {name:'Lagoon', hex:'#68e1fd'},
+  {name:'Lilac', hex:'#c6b5ff'},
+  {name:'Slate', hex:'#8ea1b8'},
+];
+
+const BASE_PRICE = { pendant: 120, desk: 95, floor: 160 };
+const MATERIAL_FACTOR = { glass: 1.25, fabric: 1.1, metal: 1.15 };
+
+// ---------- State ----------
+const S = {
+  model:'pendant', material:'glass', color:'#ffd36e', k:4000, lumens:700, cable:100, qty:1,
+  night:false
+};
+
+// ---------- Helpers ----------
+const $ = (q)=> document.querySelector(q);
+const fmt = (n)=> '€' + n.toFixed(2);
+
+function shadeToGlass(hex){
+  // lighter highlight for glass look
+  return hex.replace('#','');
+}
+
+// ---------- UI wiring ----------
+const model = $('#model');
+const material = $('#material');
+const k = $('#k');
+const lumens = $('#lumens');
+const lumensVal = $('#lumensVal');
+const cable = $('#cable');
+const cableVal = $('#cableVal');
+const qty = $('#qty');
+const price = $('#price');
+const priceNote = $('#priceNote');
+const colors = $('#colors');
+const addBtn = $('#add');
+const resetBtn = $('#reset');
+const quickWarm = $('#quickWarm');
+const quickCool = $('#quickCool');
+const mode = $('#mode');
+const preview = document.getElementById('preview');
+const cart = $('#cart');
+const presets = $('#presets');
+
+function buildSwatches(){
+  colors.innerHTML = COLORS.map((c,i)=>`<button class="swatch" title="${c.name}" style="background:${c.hex}" role="radio" aria-checked="${i===2}" data-hex="${c.hex}"></button>`).join('');
+  colors.addEventListener('click', (e)=>{
+    const b = e.target.closest('.swatch'); if(!b) return;
+    [...colors.children].forEach(x=>x.setAttribute('aria-checked','false'));
+    b.setAttribute('aria-checked','true');
+    S.color = b.dataset.hex; render();
+  });
+}
+
+function buildPresets(){
+  const P = [
+    {label:'Reading nook', state:{model:'floor', material:'fabric', color:'#ffd36e', k:2700, lumens:850, cable:130}},
+    {label:'Studio desk', state:{model:'desk', material:'metal', color:'#68e1fd', k:6500, lumens:950, cable:45}},
+    {label:'Dining set', state:{model:'pendant', material:'glass', color:'#e5eefc', k:3000, lumens:750, cable:140}},
+    {label:'Cozy corner', state:{model:'floor', material:'fabric', color:'#c6b5ff', k:3500, lumens:600, cable:120}},
+  ];
+  presets.innerHTML = P.map((p,i)=>{
+    return `<div class="card col-3">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:10px;background:${p.state.color};border:1px solid #e6e9f3"></div>
+        <div>
+          <div style="font-weight:800">${p.label}</div>
+          <div class="tiny">${p.state.model}, ${p.state.material}, ${p.state.k}K</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <button class="btn btn-ghost" data-i="${i}">Apply</button>
+      </div>
+    </div>`
+  }).join('');
+  presets.addEventListener('click', (e)=>{
+    const b=e.target.closest('button[data-i]'); if(!b) return;
+    const p = P[+b.dataset.i]; Object.assign(S, p.state); syncControls(); render();
+  });
+}
+
+function syncControls(){
+  model.value=S.model; material.value=S.material; k.value=String(S.k);
+  lumens.value=S.lumens; lumensVal.textContent=S.lumens;
+  cable.value=S.cable; cableVal.textContent=S.cable; qty.value=S.qty;
+  // color swatch
+  [...colors.children].forEach(x=> x.setAttribute('aria-checked', String(x.style.backgroundColor.toLowerCase()===S.color.toLowerCase())));
+}
+
+[model,material,k,lumens,cable,qty].forEach(el=> el.addEventListener('input',()=>{
+  S.model=model.value; S.material=material.value; S.k=+k.value; S.lumens=+lumens.value; S.cable=+cable.value; S.qty=+qty.value; 
+  lumensVal.textContent=S.lumens; cableVal.textContent=S.cable; render();
+}));
+
+quickWarm.addEventListener('click',()=>{ S.k=2700; S.color='#ffd36e'; S.lumens=800; syncControls(); render(); });
+quickCool.addEventListener('click',()=>{ S.k=6500; S.color='#68e1fd'; S.lumens=1000; syncControls(); render(); });
+
+mode.addEventListener('click',()=>{ S.night=!S.night; mode.dataset.on=String(S.night); mode.setAttribute('aria-checked',String(S.night)); document.body.style.background = S.night? 'radial-gradient(1000px 500px at 20% -10%, #0b1222 0%, #0e1426 60%, #10131b 100%)':'radial-gradient(1200px 600px at 80% -10%, #e9f2ff 0%, #f6f7fb 60%, #fbfcff 100%)'; render(); })
+mode.addEventListener('keydown',(e)=>{ if(e.key===' '||e.key==='Enter'){e.preventDefault(); mode.click();}})
+
+resetBtn.addEventListener('click',()=>{ Object.assign(S,{model:'pendant', material:'glass', color:'#ffd36e', k:4000, lumens:700, cable:100, qty:1}); syncControls(); render(); })
+
+addBtn.addEventListener('click',()=>{
+  const item = {...S, id:crypto.randomUUID(), price: calcPrice() };
+  CART.push(item); renderCart();
+})
+
+// ---------- Price ----------
+function calcPrice(){
+  const base = BASE_PRICE[S.model] || 100;
+  const mat = MATERIAL_FACTOR[S.material] || 1;
+  const lum = (S.lumens-200)/100 * 2; // +€ per 100 lm
+  const len = (S.model==='pendant'? (S.cable-60)/20 : (S.model==='floor'? (S.cable-100)/20 : 0)) * 1.5;
+  const colorPrem = ['#ffd36e','#68e1fd','#c6b5ff'].includes(S.color.toLowerCase())? 6:0; // trendy premium
+  const unit = Math.max(20, base*mat + lum + len + colorPrem);
+  return unit * Math.max(1,S.qty);
+}
+
+// ---------- Preview SVG ----------
+function renderPreview(){
+  const glow = S.k<=3000 ? '#ffefc2' : (S.k>=6000 ? '#cfeaff' : '#fff3d1');
+  const shade = S.color;
+  const metal = S.night? '#b7c0d4':'#9aa7bd';
+  const stroke = '#cfd7ea';
+
+  const pendant = `
+    <g transform="translate(100,10)">
+      <rect x="-2" y="0" width="4" height="${S.cable/3}" rx="2" fill="${metal}"/>
+      <ellipse cx="0" cy="${S.cable/3}" rx="40" ry="6" fill="rgba(0,0,0,.1)"/>
+      <path d="M -48 ${S.cable/3} Q 0 ${S.cable/3+6} 48 ${S.cable/3} L 40 ${S.cable/3+50} Q 0 ${S.cable/3+62} -40 ${S.cable/3+50} Z" fill="${shade}" stroke="${stroke}"/>
+      <circle cx="0" cy="${S.cable/3+42}" r="32" fill="${glow}" opacity="0.25"/>
+    </g>`;
+
+  const desk = `
+    <g transform="translate(40,110)">
+      <rect x="0" y="70" width="60" height="6" rx="3" fill="${metal}"/>
+      <rect x="10" y="20" width="6" height="50" rx="3" fill="${metal}"/>
+      <rect x="10" y="18" width="50" height="6" rx="3" fill="${metal}"/>
+      <path d="M 60 16 L 98 0 L 106 16 L 68 32 Z" fill="${shade}" stroke="${stroke}"/>
+      <circle cx="86" cy="10" r="20" fill="${glow}" opacity="0.22"/>
+    </g>`;
+
+  const floor = `
+    <g transform="translate(98,20)">
+      <rect x="-2" y="0" width="4" height="110" rx="2" fill="${metal}"/>
+      <rect x="-22" y="110" width="44" height="8" rx="4" fill="${metal}"/>
+      <path d="M -44 16 Q 0 0 44 16 L 36 54 Q 0 68 -36 54 Z" fill="${shade}" stroke="${stroke}"/>
+      <circle cx="0" cy="36" r="28" fill="${glow}" opacity="0.25"/>
+    </g>`;
+
+  let svg = '';
+  if(S.model==='pendant') svg=pendant; else if(S.model==='desk') svg=desk; else svg=floor;
+
+  // ambient vignette for night
+  const amb = S.night ? `<radialGradient id='amb' cx='50%' cy='0%'><stop offset='0%' stop-color='${glow}' stop-opacity='.18'/><stop offset='60%' stop-color='${glow}' stop-opacity='.05'/><stop offset='100%' stop-color='transparent'/></radialGradient><rect x='0' y='0' width='200' height='200' fill='url(#amb)'/>` : '';
+
+  preview.innerHTML = amb + svg;
+}
+
+// ---------- Cart ----------
+const CART = [];
+function renderCart(){
+  if(!CART.length){ cart.innerHTML = '<div class="tiny">Your cart is empty.</div>'; return; }
+  let total = 0;
+  cart.innerHTML = CART.map(it=>{
+    total += it.price;
+    const subtitle = `${it.model}, ${it.material}, ${it.k}K, ${it.lumens}lm, ${it.cable}cm ×${it.qty}`;
+    return `<div class='cartItem'>
+      <div>
+        <div style='font-weight:800'>Custom Lamp</div>
+        <div class='tiny'>${subtitle}</div>
+      </div>
+      <div style='display:flex;gap:8px;align-items:center'>
+        <div>${fmt(it.price)}</div>
+        <button class='btn btn-ghost' data-id='${it.id}'>Remove</button>
+      </div>
+    </div>`
+  }).join('') + `<div style='text-align:right;margin-top:8px;font-weight:800'>Total: ${fmt(total)}</div>`;
+
+  cart.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click',()=>{
+    const i = CART.findIndex(x=> x.id===b.dataset.id); if(i>=0) CART.splice(i,1); renderCart();
+  }))
+}
+
+// ---------- Render ----------
+function render(){
+  renderPreview();
+  const unit = calcPrice() / Math.max(1,S.qty);
+  price.textContent = fmt(calcPrice());
+  priceNote.textContent = `Unit: ${fmt(unit)} · ${S.k}K · ${S.lumens}lm`;
+}
+
+// ---------- Init ----------
+buildSwatches(); buildPresets(); syncControls(); render(); renderCart();
+
+// ---------- Fake checkout ----------
+$('#buy').addEventListener('click',()=>{
+  if(!CART.length){ alert('Cart is empty 🤍'); return; }
+  alert('Thank you! Your order is placed.');
+  CART.length = 0; renderCart();
+})
+</script>
+</body>
+</html>
