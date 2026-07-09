@@ -705,11 +705,11 @@ const PROJECTS = [
     cover:'linear-gradient(145deg,rgba(72,27,34,.18),rgba(12,10,16,.62)),url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=70")',
     className:'project',
     desc:{
-      ru:'Учебная Unity-игра по мотивам «Красной шапочки». Показывает базовую игровую логику, работу со сценами и интеракции.',
-      de:'Unity-Lernspiel nach Rotkäppchen. Zeigt grundlegende Spiellogik, Szenenarbeit und Interaktionen.',
-      en:'A Unity learning game inspired by Little Red Riding Hood. It demonstrates basic gameplay logic, scenes and interactions.'
+      ru:'Хоррор-версия Красной Шапочки: волк преследует персонажа, может стрелять, прыгать по платформам и постоянно давить на игрока. В финальной сцене бабушка тоже становится монстром.',
+      de:'Horror-Version von Rotkäppchen: Der Wolf verfolgt die Spielfigur, kann schießen, Plattformen nutzen und Druck aufbauen. Am Ende wartet eine Szene mit der Großmutter als Monster.',
+      en:'A horror version of Little Red Riding Hood: the wolf chases the player, can shoot, use platforms and keep pressure on the player. The final scene turns the grandmother into a monster.'
     },
-    tags:['Unity','2D','Gameplay','WebGL']
+    tags:['Unity','Horror','AI','WebGL']
   },
   {
     title:'Dress Up Game',
@@ -721,11 +721,11 @@ const PROJECTS = [
     cover:'linear-gradient(145deg,rgba(124,98,214,.20),rgba(20,18,23,.54)),url("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=70")',
     className:'project',
     desc:{
-      ru:'Игра с переодеванием персонажа. Проект подчёркивает работу с UI, кнопками, логикой выбора и визуальной обратной связью.',
-      de:'Dress-up-Spiel. Das Projekt zeigt Arbeit mit UI, Buttons, Auswahl-Logik und visuellem Feedback.',
-      en:'A dress-up game. The project highlights UI work, buttons, selection logic and visual feedback.'
+      ru:'3D-игра с переодеванием: можно выбирать одежду, настраивать персонажа и сохранять результат. Фокус на UI, логике выбора и визуальной обратной связи.',
+      de:'3D-Dress-up-Spiel, in dem man Kleidung auswählen, den Charakter gestalten und das Ergebnis speichern kann. Der Fokus liegt auf UI, Auswahl-Logik und visueller Rückmeldung.',
+      en:'A 3D dress-up game where the player can choose clothes, customize the character and save the result. The focus is on UI, selection logic and visual feedback.'
     },
-    tags:['Unity','UI','Interaction','WebGL']
+    tags:['Unity','3D','UI','Save System']
   },
   {
     title:'Server Runner',
@@ -737,11 +737,11 @@ const PROJECTS = [
     cover:'linear-gradient(145deg,rgba(22,49,72,.20),rgba(20,18,23,.66)),url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=70")',
     className:'project',
     desc:{
-      ru:'Небольшой игровой прототип с персонажем и выбором разных серверов. Показывает механику выбора, стартовый экран и логику перехода к игре.',
-      de:'Kleiner Spiel-Prototyp mit Charakter und Auswahl verschiedener Server. Zeigt Auswahlmechanik, Startscreen und Uebergang ins Spiel.',
-      en:'A small game prototype with a character and selectable servers. It shows choice mechanics, a start screen and the transition into gameplay.'
+      ru:'Мультиплеерный прототип с host, client и server-логикой: можно играть вместе, создавать кубы, набирать счёт и использовать бусты.',
+      de:'Multiplayer-Prototyp mit Host, Client und Server. Spieler können gemeinsam starten, Würfel erstellen, Punkte sammeln und Boosts nutzen.',
+      en:'A multiplayer prototype with host, client and server flow. Players can join together, create cubes, collect score and use boosts.'
     },
-    tags:['Unity','Menu','Character','Prototype']
+    tags:['Unity','Multiplayer','Server/Client','Boosts']
   },
   {
     title:'Pulse Fit',
@@ -920,7 +920,7 @@ function renderProjects(lang,t){
     const ext = isExternal(item.url);
     const src = repoUrl(item.url);
     const previewBtn = !ext && item.url && item.url !== '#' ? `<button class="small-btn" type="button" data-preview="${item.url}" data-title="${item.title}">${t.labels.preview}</button>` : '';
-    const sourceBtn = src ? `<a class="small-btn" href="${src}" target="_blank" rel="noopener">${t.labels.source}</a>` : '';
+    const sourceBtn = '';
     const openBtn = item.url && item.url !== '#' ? `<a class="small-btn primary" href="${item.url}" target="_blank" rel="noopener">${t.labels.open}</a>` : `<span class="small-btn disabled">${item.status}</span>`;
     return `
       <article class="${item.className} reveal delay-${(idx%4)+1}">
